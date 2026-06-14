@@ -1,0 +1,16 @@
+settings.local.json
+*.local.json
+.env
+.env.*
+memory/local/
+
+# Claude session artifacts
+*.jsonl
+bash-commands.log
+cost-tracker.log
+metrics/
+daemon.status.json
+
+# OS
+.DS_Store
+Thumbs.db
