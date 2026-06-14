@@ -2,19 +2,18 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CLAUDE_DIR="$HOME/.claude"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 green() { printf '\033[32m%s\033[0m\n' "$*"; }
 yellow() { printf '\033[33m%s\033[0m\n' "$*"; }
-red() { printf '\033[31m%s\033[0m\n' "$*"; }
 
+# link <repo-relative-src> <absolute-dst>
 link() {
   local src="$REPO_DIR/$1"
-  local dst="$CLAUDE_DIR/$2"
+  local dst="$2"
 
   if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
-    green "  OK  $dst → $src"
+    green "  OK  $dst"
     return
   fi
 
@@ -25,29 +24,35 @@ link() {
   fi
 
   ln -sf "$src" "$dst"
-  green "  LNK $dst → $src"
+  green "  LNK $dst"
 }
 
+# ── Claude Code ──────────────────────────────────────────────────────────────
+CLAUDE_DIR="$HOME/.claude"
 echo ""
-echo "Installing AkzelchCC → $CLAUDE_DIR"
-echo ""
-
-mkdir -p "$CLAUDE_DIR"
+echo "Claude Code → $CLAUDE_DIR"
 mkdir -p "$CLAUDE_DIR/rules"
 
-# Top-level files
-link CLAUDE.md        CLAUDE.md
-link settings.json    settings.json
-link MEMORY.md        MEMORY.md
+link CLAUDE.md        "$CLAUDE_DIR/CLAUDE.md"
+link settings.json    "$CLAUDE_DIR/settings.json"
+link MEMORY.md        "$CLAUDE_DIR/MEMORY.md"
+link memory           "$CLAUDE_DIR/memory"
+link rules/personal   "$CLAUDE_DIR/rules/personal"
+link agents           "$CLAUDE_DIR/agents"
+link skills           "$CLAUDE_DIR/skills"
+link commands         "$CLAUDE_DIR/commands"
+link hooks            "$CLAUDE_DIR/hooks"
 
-# Directories
-link memory          memory
-link rules/personal  rules/personal
-link agents          agents
-link skills          skills
-link commands        commands
-link hooks           hooks
-
+# ── GitHub Copilot CLI ───────────────────────────────────────────────────────
+COPILOT_DIR="$HOME/.copilot"
 echo ""
-green "Done. Start a new claude session to pick up the config."
+echo "GitHub Copilot CLI → $COPILOT_DIR"
+mkdir -p "$COPILOT_DIR"
+
+link copilot/copilot-instructions.md "$COPILOT_DIR/copilot-instructions.md"
+link copilot/config.json             "$COPILOT_DIR/config.json"
+
+# ─────────────────────────────────────────────────────────────────────────────
+echo ""
+green "Done."
 echo ""

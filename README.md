@@ -2,22 +2,32 @@
 
 Personal Claude Code configuration — version-controlled dotfiles for `~/.claude/`.
 
+## Tools
+
+| Tool | Config location |
+|------|----------------|
+| Claude Code | `~/.claude/` |
+| GitHub Copilot CLI | `~/.copilot/` |
+
 ## Structure
 
 ```
-├── CLAUDE.md              # Global instructions loaded every session
-├── settings.json          # Model + plugin config
-├── MEMORY.md              # Memory index (auto-loaded)
-├── memory/                # Memory files (user, feedback, project, reference)
+├── CLAUDE.md              # Claude Code: global instructions
+├── settings.json          # Claude Code: model + plugin config
+├── MEMORY.md              # Claude Code: memory index (auto-loaded)
+├── memory/                # Claude Code: memory files
 ├── rules/
 │   ├── common/            # Language-agnostic rules
 │   ├── web/               # Web/frontend rules
 │   └── personal/          # Personal preferences
-├── agents/                # Custom subagent definitions
+├── agents/                # Claude Code: custom subagent definitions
 ├── skills/
-│   └── graphify/          # /graphify knowledge graph skill
-├── commands/              # Custom slash commands
-└── hooks/                 # Event-triggered scripts
+│   └── graphify/          # Claude Code: /graphify knowledge graph skill
+├── commands/              # Claude Code: custom slash commands
+├── hooks/                 # Claude Code: event hook scripts
+└── copilot/
+    ├── copilot-instructions.md  # Copilot CLI: user-level instructions
+    └── config.json              # Copilot CLI: CLI settings
 ```
 
 ## Install
