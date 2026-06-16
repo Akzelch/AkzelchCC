@@ -52,3 +52,6 @@ Create `agents/<name>.md` following the Claude Code agent definition format. Ref
 ## Adding Skills
 
 Create `skills/<name>/SKILL.md`. Invoke via the Skill tool with `skill: "<name>"` or register a trigger in `CLAUDE.md`.
+
+License notices:
+repo contains files from Matt pococks Skills repo, Superpowers and ECC which are all MIT Licensed. All files copied from their repositories is their original work and I highly recommend checking them out! shout out to the creators for making awesome skills.
