@@ -12,4 +12,6 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
 }
 
 & node (Join-Path $dir 'install.mjs') @args
-exit $LASTEXITCODE
+$exitCode = $LASTEXITCODE
+Read-Host "`nPress Enter to close"
+exit $exitCode

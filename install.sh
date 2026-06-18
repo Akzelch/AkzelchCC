@@ -9,4 +9,7 @@ if ! command -v node >/dev/null 2>&1; then
   exit 1
 fi
 
-exec node "$DIR/install.mjs" "$@"
+node "$DIR/install.mjs" "$@"
+exit_code=$?
+read -rp $'\nPress Enter to close...'
+exit $exit_code
