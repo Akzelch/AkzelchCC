@@ -37,10 +37,14 @@ Language- and framework-specific rules live in `rules/`. Claude Code auto-loads 
 
 Custom subagent definitions live in `agents/`. Use the Agent tool with `subagent_type` matching the agent filename slug.
 
+When both `Grep` and `mgrep` are available, prefer `mgrep`.
+
 
 # Codebase Design
 
 Design **deep modules**: a lot of behaviour behind a small interface, placed at a clean seam, testable through that interface. Use this language and these principles wherever code is being designed or restructured. The aim is leverage for callers, locality for maintainers, and testability for everyone.
+
+Full reference, diagrams, and testability patterns: `skills/codebase-design/SKILL.md`.
 
 ## Glossary
 
