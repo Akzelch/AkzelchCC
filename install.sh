@@ -37,11 +37,20 @@ link CLAUDE.md        "$CLAUDE_DIR/CLAUDE.md"
 link settings.json    "$CLAUDE_DIR/settings.json"
 link MEMORY.md        "$CLAUDE_DIR/MEMORY.md"
 link memory           "$CLAUDE_DIR/memory"
-link rules/personal   "$CLAUDE_DIR/rules/personal"
 link agents           "$CLAUDE_DIR/agents"
 link skills           "$CLAUDE_DIR/skills"
 link commands         "$CLAUDE_DIR/commands"
 link hooks            "$CLAUDE_DIR/hooks"
+
+# ── Rules ────────────────────────────────────────────────────────────────────
+echo ""
+echo "Rules → $CLAUDE_DIR/rules"
+mkdir -p "$CLAUDE_DIR/rules"
+for rule_dir in "$REPO_DIR/rules"/*/; do
+  [ -d "$rule_dir" ] || continue
+  subdir="$(basename "$rule_dir")"
+  link "rules/$subdir" "$CLAUDE_DIR/rules/$subdir"
+done
 
 # ── GitHub Copilot CLI ───────────────────────────────────────────────────────
 COPILOT_DIR="$HOME/.copilot"

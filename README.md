@@ -17,9 +17,9 @@ Personal Claude Code configuration — version-controlled dotfiles for `~/.claud
 ├── MEMORY.md              # Claude Code: memory index (auto-loaded)
 ├── memory/                # Claude Code: memory files
 ├── rules/
-│   ├── common/            # Language-agnostic rules
-│   ├── web/               # Web/frontend rules
-│   └── personal/          # Personal preferences
+│   ├── common/            # Language-agnostic rules (mirrors ECC common/)
+│   ├── personal/          # Personal preferences
+│   └── <lang>/            # Language/framework-specific rules (e.g. typescript/, web/)
 ├── agents/                # Claude Code: custom subagent definitions
 ├── skills/
 │   └── graphify/          # Claude Code: /graphify knowledge graph skill
@@ -43,7 +43,9 @@ chmod +x install.sh
 
 ## Adding Rules
 
-Drop a `.md` file anywhere under `rules/`. Claude Code auto-loads all markdown files in the rules tree at session start.
+Drop `.md` files into any subdirectory under `rules/`. Each subdirectory is symlinked individually to `~/.claude/rules/<name>` on install, so Claude Code auto-loads them at session start.
+
+Structure mirrors the [ECC rules](https://github.com/nicholasgasior/ecc) pattern — `rules/common/` for language-agnostic principles, plus per-language directories (e.g. `rules/typescript/`, `rules/web/`). Adding a new language is as simple as creating the directory; the install script picks it up automatically.
 
 ## Adding Agents
 
