@@ -8,12 +8,30 @@ Personal Claude Code configuration — version-controlled dotfiles for `~/.claud
 |------|----------------|
 | Claude Code | `~/.claude/` |
 | GitHub Copilot CLI | `~/.copilot/` |
+| VS Code Copilot (user level) | `~/.claude/*` + VS Code `settings.json` |
+
+### GitHub Copilot mapping
+
+GitHub Copilot natively reads the same Claude-format paths this repo already
+links, so most of the config is shared rather than duplicated.
+
+| What | Copilot CLI | VS Code Copilot reads |
+|------|-------------|-----------------------|
+| Always-on instructions | `~/.copilot/copilot-instructions.md` | `~/.claude/CLAUDE.md` (needs `chat.useClaudeMdFile`) |
+| File-based rules | `~/.copilot/copilot-instructions.md` | `~/.claude/rules` |
+| Skills | `~/.copilot/skills/` | `~/.claude/skills/`, `~/.copilot/skills/` |
+| Agents | `~/.copilot/agents/` | `~/.copilot/agents/` |
+
+The installer enables `chat.useClaudeMdFile` and registers the instruction
+locations in your VS Code user `settings.json` (backed up first). Restart VS
+Code after install for it to pick up the new customizations.
 
 ## Structure
 
 ```
 ├── CLAUDE.md              # Claude Code: global instructions
 ├── settings.json          # Claude Code: model + plugin config
+├── mcp.json               # Claude Code: MCP server definitions (registered to ~/.claude.json on install)
 ├── MEMORY.md              # Claude Code: memory index (auto-loaded)
 ├── memory/                # Claude Code: memory files
 ├── rules/
@@ -32,14 +50,41 @@ Personal Claude Code configuration — version-controlled dotfiles for `~/.claud
 
 ## Install
 
+Requires **Node.js** on your `PATH` (used by the cross-platform installer). All
+the install logic lives in `install.mjs`; the shell scripts are thin wrappers.
+
+**macOS / Linux / WSL**
+
 ```bash
 git clone <repo-url> ~/Documents/CC-repos/AkzelchCC
 cd ~/Documents/CC-repos/AkzelchCC
-chmod +x install.sh
-./install.sh
+./install.sh        # or: node install.mjs
 ```
 
-`install.sh` creates symlinks from `~/.claude/` into this repo. Existing files are backed up with a timestamp suffix before being replaced. Re-running is safe — existing correct symlinks are skipped.
+**Windows (PowerShell)**
+
+```powershell
+git clone <repo-url> $HOME\Documents\CC-repos\AkzelchCC
+cd $HOME\Documents\CC-repos\AkzelchCC
+.\install.ps1       # or: node install.mjs
+```
+
+The installer links this repo into `~/.claude/` and `~/.copilot/`, then patches
+the VS Code user `settings.json` (enabling `chat.useClaudeMdFile` and the
+instruction locations). Existing files are backed up with a timestamp suffix
+before being replaced. Re-running is safe — correct links are skipped.
+
+**Linking strategy (no admin required):**
+
+- **Directories** (`agents`, `skills`, `rules/*`, `memory`, `commands`, `hooks`)
+  are linked with **junctions** on Windows / symlinks on POSIX. These need no
+  special privilege and stay live — edits and `git pull` apply instantly.
+- **Files** (`CLAUDE.md`, `settings.json`, `MEMORY.md`, the two `copilot/`
+  files) are symlinked, falling back to a **copy** when symlink privilege is
+  missing on Windows. If copied, re-run the installer after editing those files.
+
+> To get live symlinks for the handful of files on Windows too, enable
+> **Developer Mode** (Settings > For developers) and re-run.
 
 ## Adding Rules
 
