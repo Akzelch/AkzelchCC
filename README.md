@@ -63,46 +63,16 @@ Skills without an entry here produce plain-text or JSON artifacts that work with
 
 ## Install
 
-There are two layers: the **plugin** (skills, agents, MCP servers) and the
-**instruction layer** (CLAUDE.md, rules, memory). The `install.mjs` script wires
-up both. You can also install just the plugin manually.
+Two independent layers:
 
-### Full install (plugin + instruction layer)
+1. **Plugin** — skills, subagents, MCP servers. Installed with the **native
+   plugin installers** (no script).
+2. **Instruction layer** — `CLAUDE.md`, `rules/`, `memory/`, model config.
+   Plugins can't carry these, so `install.mjs` links them in.
 
-Requires **Node.js** on your `PATH`. All the install logic lives in
-`install.mjs`; the shell scripts are thin wrappers.
+You can install either layer on its own.
 
-**macOS / Linux / WSL**
-
-```bash
-git clone https://github.com/Akzelch/AkzelchCC ~/Documents/CC-repos/AkzelchCC
-cd ~/Documents/CC-repos/AkzelchCC
-./install.sh        # or: node install.mjs
-```
-
-**Windows (PowerShell)**
-
-```powershell
-git clone https://github.com/Akzelch/AkzelchCC $HOME\Documents\CC-repos\AkzelchCC
-cd $HOME\Documents\CC-repos\AkzelchCC
-.\install.ps1       # or: node install.mjs
-```
-
-The installer:
-
-1. Symlinks the instruction layer into `~/.claude/` and `~/.copilot/`.
-2. Registers this repo as a local marketplace and installs the `akzelchcc`
-   plugin for any of `claude` / `copilot` CLIs found on `PATH`.
-3. Patches the VS Code user `settings.json` — enables `chat.useClaudeMdFile`,
-   registers the rules instruction location, and adds this repo to
-   `chat.pluginLocations` so VS Code Copilot loads the plugin live.
-
-Existing files are backed up with a timestamp suffix before being replaced.
-Re-running is safe. Restart VS Code after install.
-
-### Plugin only (manual)
-
-Install just the plugin without the instruction-layer symlinks:
+### 1. Install the plugin (native)
 
 **GitHub Copilot CLI**
 
@@ -125,11 +95,50 @@ install from the Extensions view (`@agentPlugins`):
 "chat.plugins.marketplaces": ["Akzelch/AkzelchCC"]
 ```
 
-Or, to load a local clone live, point at the repo directory:
+Or, to load a local clone live (no marketplace, no push needed), point at the
+repo directory:
 
 ```jsonc
 "chat.pluginLocations": { "/path/to/AkzelchCC": true }
 ```
+
+> `marketplace add Akzelch/AkzelchCC` pulls from GitHub. Until your changes are
+> pushed, pass the local repo path instead, e.g.
+> `copilot plugin marketplace add /path/to/AkzelchCC`.
+
+### 2. Install the instruction layer (optional)
+
+Only needed if you also want the always-on instructions, rules, and memory.
+Requires **Node.js** on your `PATH`; the shell scripts are thin wrappers around
+`install.mjs`.
+
+**macOS / Linux / WSL**
+
+```bash
+git clone https://github.com/Akzelch/AkzelchCC ~/Documents/CC-repos/AkzelchCC
+cd ~/Documents/CC-repos/AkzelchCC
+./install.sh        # or: node install.mjs
+```
+
+**Windows (PowerShell)**
+
+```powershell
+git clone https://github.com/Akzelch/AkzelchCC $HOME\Documents\CC-repos\AkzelchCC
+cd $HOME\Documents\CC-repos\AkzelchCC
+.\install.ps1       # or: node install.mjs
+```
+
+The installer:
+
+1. Symlinks the instruction layer (`CLAUDE.md`, `settings.json`, `MEMORY.md`,
+   `memory/`, `rules/*`, the `copilot/` files) into `~/.claude/` and
+   `~/.copilot/`.
+2. Patches the VS Code user `settings.json` — enables `chat.useClaudeMdFile`
+   and registers the rules instruction location.
+
+It does **not** touch plugins; use the native installers above for those.
+Existing files are backed up with a timestamp suffix before being replaced.
+Re-running is safe. Restart VS Code after install.
 
 ### Linking strategy (no admin required)
 

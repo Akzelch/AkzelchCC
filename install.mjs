@@ -1,9 +1,14 @@
 #!/usr/bin/env node
-// install.mjs — cross-platform installer for AkzelchCC.
+// install.mjs — cross-platform installer for the AkzelchCC instruction layer.
 //
-// Links this repo into Claude Code (~/.claude), GitHub Copilot CLI (~/.copilot),
-// and patches the VS Code user settings.json so VS Code Copilot reads the
-// Claude-format files. Zero dependencies — uses only Node built-ins.
+// Installs only what agent plugins can't carry: the always-on instructions
+// (CLAUDE.md), file-based rules, memory, and model config. Skills, subagents,
+// and MCP servers ship via the AkzelchCC plugin — install those natively with
+// `claude plugin install` / `copilot plugin install` or VS Code's plugin UI.
+//
+// This script links the instruction layer into Claude Code (~/.claude) and
+// GitHub Copilot CLI (~/.copilot), then patches the VS Code user settings.json
+// so VS Code Copilot reads the Claude-format files. Zero dependencies.
 //
 // Strategy:
 //   - directories  -> junction (Windows) / symlink (POSIX), no admin required
@@ -16,7 +21,6 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const REPO_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -163,60 +167,9 @@ if (!fs.existsSync(vscodeUser)) {
       '~/.claude/rules': true,
       '~/.copilot/instructions': true,
     };
-    obj['chat.pluginLocations'] = {
-      ...(obj['chat.pluginLocations'] ?? {}),
-      [REPO_DIR]: true,
-    };
     fs.writeFileSync(settingsPath, JSON.stringify(obj, null, 2) + '\n');
-    console.log(c.green(`  SET ${settingsPath} (chat.useClaudeMdFile, instruction + plugin locations)`));
-  }
-}
-
-// ── Agent Plugins ────────────────────────────────────────────────────────────
-// Register this repo as a local plugin marketplace and install the AkzelchCC
-// plugin (skills, agents, MCP servers) for every CLI that is present.
-console.log('\nAgent Plugins');
-installPlugin('claude', 'Claude Code');
-installPlugin('copilot', 'GitHub Copilot CLI');
-
-if (hasCommand('claude')) {
-  for (const plugin of ['pyright@claude-code-lsps']) {
-    try {
-      execFileSync('claude', ['plugin', 'install', plugin], { stdio: 'pipe' });
-      console.log(c.green(`  PLG ${plugin}`));
-    } catch {
-      warn(`PLG ${plugin} (failed or already installed)`);
-    }
+    console.log(c.green(`  SET ${settingsPath} (chat.useClaudeMdFile, instruction locations)`));
   }
 }
 
 console.log(`\n${c.green('Done.')}\n`);
-
-// Register REPO_DIR as a marketplace and install akzelchcc@akzelchcc via `cli`.
-function installPlugin(cli, label) {
-  if (!hasCommand(cli)) {
-    warn(`SKIP ${label} plugin — ${cli} CLI not in PATH`);
-    return;
-  }
-  try {
-    execFileSync(cli, ['plugin', 'marketplace', 'add', REPO_DIR], { stdio: 'ignore' });
-  } catch {
-    /* marketplace already registered */
-  }
-  try {
-    execFileSync(cli, ['plugin', 'install', 'akzelchcc@akzelchcc'], { stdio: 'pipe' });
-    console.log(c.green(`  PLG ${label}: akzelchcc`));
-  } catch {
-    warn(`PLG ${label}: akzelchcc (failed or already installed)`);
-  }
-}
-
-function hasCommand(cmd) {
-  const probe = IS_WIN ? 'where' : 'which';
-  try {
-    execFileSync(probe, [cmd], { stdio: 'ignore' });
-    return true;
-  } catch {
-    return false;
-  }
-}
