@@ -48,6 +48,16 @@ Code after install for it to pick up the new customizations.
     └── config.json              # Copilot CLI: CLI settings
 ```
 
+## VS Code Extension Dependencies
+
+Some skills require a VS Code extension to consume their output:
+
+| Skill | Extension required | Extension ID |
+|-------|--------------------|--------------|
+| `code-tour` | CodeTour | `vsls-contrib.codetour` |
+
+Skills without an entry here produce plain-text or JSON artifacts that work without additional tooling.
+
 ## Install
 
 Requires **Node.js** on your `PATH` (used by the cross-platform installer). All

@@ -43,6 +43,13 @@ When both `Grep` and `mgrep` are available, prefer `mgrep`.
 
 Use `mgrep` and `graphify` for codebase exploration and search. Never use `grep`, `cat`, `find`, or shell equivalents when `mgrep` is available.
 
+## Code Navigation
+
+Prefer LSP operations over grep for symbol lookups:
+- `goToDefinition` — find where a symbol is defined.
+- `findReferences` — find all usages of a symbol.
+- Only use grep for literal string searches with no semantic intent.
+
 
 # Codebase Design
 

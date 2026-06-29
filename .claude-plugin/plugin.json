@@ -1,0 +1,25 @@
+{
+  "name": "akzelchcc",
+  "displayName": "AkzelchCC",
+  "description": "Personal skills, agents, and commands — code review, TDD, architecture, graphify, and more.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Akzelch"
+  },
+  "repository": "https://github.com/Axzel/AkzelchCC",
+  "keywords": ["skills", "agents", "code-review", "tdd", "graphify", "architecture"],
+  "mcpServers": {
+    "parallel-search": {
+      "type": "http",
+      "url": "https://search.parallel.ai/mcp"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp", "--browser", "chrome"]
+    }
+  }
+}

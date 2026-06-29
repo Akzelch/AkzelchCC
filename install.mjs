@@ -202,6 +202,22 @@ if (!fs.existsSync(vscodeUser)) {
   }
 }
 
+// ── Claude Code Plugins ─────────────────────────────────────────────────────
+console.log('\nClaude Code Plugins');
+if (!hasCommand('claude')) {
+  warn('SKIP plugins — claude CLI not in PATH');
+} else {
+  const plugins = ['pyright@claude-code-lsps'];
+  for (const plugin of plugins) {
+    try {
+      execFileSync('claude', ['plugin', 'install', plugin], { stdio: 'pipe' });
+      console.log(c.green(`  PLG ${plugin}`));
+    } catch {
+      warn(`PLG ${plugin} (failed or already installed)`);
+    }
+  }
+}
+
 console.log(`\n${c.green('Done.')}\n`);
 
 function hasCommand(cmd) {
