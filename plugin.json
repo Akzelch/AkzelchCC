@@ -8,7 +8,5 @@
   "homepage": "https://github.com/Akzelch/AkzelchCC",
   "repository": "https://github.com/Akzelch/AkzelchCC",
   "license": "MIT",
-  "keywords": ["skills", "agents", "subagents", "mcp", "copilot", "claude-code"],
-  "agents": "agents/",
-  "skills": "skills/"
+  "keywords": ["skills", "agents", "subagents", "mcp", "copilot", "claude-code"]
 }
