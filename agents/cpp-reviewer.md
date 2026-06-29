@@ -78,4 +78,4 @@ cmake --build build 2>&1 | head -50
 - **Warning**: MEDIUM issues only
 - **Block**: CRITICAL or HIGH issues found
 
-For detailed C++ coding standards and anti-patterns, consult the ECC `rules/cpp/` rule set if available.
+For detailed C++ coding standards and anti-patterns, consult the `rules/cpp/` rule set if present in the project.
