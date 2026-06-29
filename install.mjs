@@ -91,7 +91,10 @@ function link(srcRel, dst) {
   }
 }
 
-// ── Claude Code ──────────────────────────────────────────────────────────────
+// ── Claude Code (instruction layer) ──────────────────────────────────────────
+// Skills, agents, commands, hooks, and MCP servers now ship via the AkzelchCC
+// plugin (see plugin.json). Only the non-plugin instruction layer is symlinked:
+// CLAUDE.md, model config, and memory.
 const CLAUDE_DIR = path.join(HOME, '.claude');
 console.log(`\nClaude Code -> ${CLAUDE_DIR}`);
 fs.mkdirSync(path.join(CLAUDE_DIR, 'rules'), { recursive: true });
@@ -100,41 +103,6 @@ link('CLAUDE.md', path.join(CLAUDE_DIR, 'CLAUDE.md'));
 link('settings.json', path.join(CLAUDE_DIR, 'settings.json'));
 link('MEMORY.md', path.join(CLAUDE_DIR, 'MEMORY.md'));
 link('memory', path.join(CLAUDE_DIR, 'memory'));
-link('agents', path.join(CLAUDE_DIR, 'agents'));
-link('skills', path.join(CLAUDE_DIR, 'skills'));
-link('commands', path.join(CLAUDE_DIR, 'commands'));
-link('hooks', path.join(CLAUDE_DIR, 'hooks'));
-
-// ── MCP Servers ──────────────────────────────────────────────────────────────
-console.log('\nMCP Servers -> ~/.claude.json (user scope)');
-const mcpFile = path.join(REPO_DIR, 'mcp.json');
-let servers = {};
-try {
-  servers = JSON.parse(fs.readFileSync(mcpFile, 'utf8')).mcpServers ?? {};
-} catch {
-  /* no/invalid mcp.json */
-}
-const serverNames = Object.keys(servers);
-if (serverNames.length === 0) {
-  warn('SKIP MCP — mcp.json is empty');
-} else if (!hasCommand('claude')) {
-  warn('SKIP MCP — claude CLI not in PATH');
-} else {
-  for (const name of serverNames) {
-    const config = JSON.stringify(servers[name]);
-    try {
-      execFileSync('claude', ['mcp', 'remove', name, '--scope', 'user'], { stdio: 'ignore' });
-    } catch {
-      /* not previously registered */
-    }
-    try {
-      execFileSync('claude', ['mcp', 'add-json', name, config, '--scope', 'user'], { stdio: 'ignore' });
-      console.log(c.green(`  MCP ${name}`));
-    } catch {
-      warn(`MCP ${name} (failed)`);
-    }
-  }
-}
 
 // ── Rules ────────────────────────────────────────────────────────────────────
 console.log(`\nRules -> ${path.join(CLAUDE_DIR, 'rules')}`);
@@ -145,22 +113,20 @@ for (const entry of fs.readdirSync(rulesSrc, { withFileTypes: true })) {
   }
 }
 
-// ── GitHub Copilot CLI ───────────────────────────────────────────────────────
-// ~/.copilot is read by the Copilot CLI (Claude Agent SDK) AND by VS Code Copilot
-// for user-level skills/agents, so these links serve both surfaces.
+// ── GitHub Copilot CLI (instruction layer) ───────────────────────────────────
+// Skills and agents now ship via the AkzelchCC plugin (installed below). Only
+// the user-level instruction layer is symlinked here.
 const COPILOT_DIR = path.join(HOME, '.copilot');
 console.log(`\nGitHub Copilot CLI -> ${COPILOT_DIR}`);
 fs.mkdirSync(COPILOT_DIR, { recursive: true });
 
 link(path.join('copilot', 'copilot-instructions.md'), path.join(COPILOT_DIR, 'copilot-instructions.md'));
 link(path.join('copilot', 'config.json'), path.join(COPILOT_DIR, 'config.json'));
-link('skills', path.join(COPILOT_DIR, 'skills'));
-link('agents', path.join(COPILOT_DIR, 'agents'));
 
 // ── VS Code (GitHub Copilot) ─────────────────────────────────────────────────
-// VS Code Copilot natively reads the Claude-format paths linked above
-// (~/.claude/CLAUDE.md, ~/.claude/rules, ~/.claude/skills) once these settings
-// are enabled. Patch the user settings.json to turn them on.
+// VS Code Copilot reads the Claude-format instruction layer (~/.claude/CLAUDE.md,
+// ~/.claude/rules) once these settings are enabled, and loads the AkzelchCC
+// plugin (skills, agents, MCP) from this repo via chat.pluginLocations.
 console.log('\nVS Code (GitHub Copilot)');
 const vscodeUser =
   process.platform === 'darwin'
@@ -197,18 +163,24 @@ if (!fs.existsSync(vscodeUser)) {
       '~/.claude/rules': true,
       '~/.copilot/instructions': true,
     };
+    obj['chat.pluginLocations'] = {
+      ...(obj['chat.pluginLocations'] ?? {}),
+      [REPO_DIR]: true,
+    };
     fs.writeFileSync(settingsPath, JSON.stringify(obj, null, 2) + '\n');
-    console.log(c.green(`  SET ${settingsPath} (chat.useClaudeMdFile, instruction locations)`));
+    console.log(c.green(`  SET ${settingsPath} (chat.useClaudeMdFile, instruction + plugin locations)`));
   }
 }
 
-// ── Claude Code Plugins ─────────────────────────────────────────────────────
-console.log('\nClaude Code Plugins');
-if (!hasCommand('claude')) {
-  warn('SKIP plugins — claude CLI not in PATH');
-} else {
-  const plugins = ['pyright@claude-code-lsps'];
-  for (const plugin of plugins) {
+// ── Agent Plugins ────────────────────────────────────────────────────────────
+// Register this repo as a local plugin marketplace and install the AkzelchCC
+// plugin (skills, agents, MCP servers) for every CLI that is present.
+console.log('\nAgent Plugins');
+installPlugin('claude', 'Claude Code');
+installPlugin('copilot', 'GitHub Copilot CLI');
+
+if (hasCommand('claude')) {
+  for (const plugin of ['pyright@claude-code-lsps']) {
     try {
       execFileSync('claude', ['plugin', 'install', plugin], { stdio: 'pipe' });
       console.log(c.green(`  PLG ${plugin}`));
@@ -219,6 +191,25 @@ if (!hasCommand('claude')) {
 }
 
 console.log(`\n${c.green('Done.')}\n`);
+
+// Register REPO_DIR as a marketplace and install akzelchcc@akzelchcc via `cli`.
+function installPlugin(cli, label) {
+  if (!hasCommand(cli)) {
+    warn(`SKIP ${label} plugin — ${cli} CLI not in PATH`);
+    return;
+  }
+  try {
+    execFileSync(cli, ['plugin', 'marketplace', 'add', REPO_DIR], { stdio: 'ignore' });
+  } catch {
+    /* marketplace already registered */
+  }
+  try {
+    execFileSync(cli, ['plugin', 'install', 'akzelchcc@akzelchcc'], { stdio: 'pipe' });
+    console.log(c.green(`  PLG ${label}: akzelchcc`));
+  } catch {
+    warn(`PLG ${label}: akzelchcc (failed or already installed)`);
+  }
+}
 
 function hasCommand(cmd) {
   const probe = IS_WIN ? 'where' : 'which';

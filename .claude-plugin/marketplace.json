@@ -1,0 +1,19 @@
+{
+  "name": "akzelchcc",
+  "owner": {
+    "name": "Akzelch"
+  },
+  "metadata": {
+    "description": "AkzelchCC personal agent customizations marketplace.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "akzelchcc",
+      "source": "./",
+      "description": "Personal subagents, skills, and MCP servers for Claude Code, GitHub Copilot CLI, and VS Code Copilot.",
+      "version": "1.0.0",
+      "license": "MIT"
+    }
+  ]
+}

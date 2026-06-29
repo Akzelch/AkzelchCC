@@ -19,12 +19,12 @@ Modern frontend patterns for React, Next.js, and performant user interfaces.
 - Handling client-side routing and navigation
 - Building accessible, responsive UI patterns
 
-## Component Patterns
+## Module Patterns
 
 ### Composition Over Inheritance
 
 ```typescript
-// PASS: GOOD: Component composition
+// PASS: GOOD: Module composition via React components
 interface CardProps {
   children: React.ReactNode
   variant?: 'default' | 'outlined'

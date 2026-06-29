@@ -1,6 +1,6 @@
 ---
 name: react-patterns
-description: React 18/19 patterns including hooks discipline, server/client component boundaries, Suspense + error boundaries, form actions, data fetching, state management decision trees, and accessibility-first composition. Use when writing or reviewing React components.
+description: React 18/19 patterns including hooks discipline, server/client component seams, Suspense + error boundaries, form actions, data fetching, state management decision trees, and accessibility-first composition. Use when writing or reviewing React components.
 metadata:
   origin: ECC
 ---
@@ -80,7 +80,7 @@ Derived from a server?
   -> server-state library (TanStack Query, SWR, RSC fetch)
 ```
 
-Most pages do not need context or a global store. Resist abstraction until duplicated lifting becomes painful.
+Most pages do not need context or a global store. Resist introducing a seam until duplicated lifting becomes painful.
 
 ## Server / Client Components (RSC)
 
@@ -107,7 +107,7 @@ export function AddToCartButton({ productId }: { productId: string }) {
 }
 ```
 
-Boundaries:
+Seams:
 
 - Server -> Client: pass serializable props or `children`
 - Client -> Server: invoke Server Actions via `<form action={...}>` or imperatively from event handlers

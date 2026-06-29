@@ -348,7 +348,8 @@ catch (error) {
 
 #### Wallet Verification
 ```typescript
-import { verify } from '@solana/web3.js'
+import nacl from 'tweetnacl'
+import bs58 from 'bs58'
 
 async function verifyWalletOwnership(
   publicKey: string,
@@ -356,10 +357,10 @@ async function verifyWalletOwnership(
   message: string
 ) {
   try {
-    const isValid = verify(
+    const isValid = nacl.sign.detached.verify(
       Buffer.from(message),
       Buffer.from(signature, 'base64'),
-      Buffer.from(publicKey, 'base64')
+      bs58.decode(publicKey)
     )
     return isValid
   } catch (error) {

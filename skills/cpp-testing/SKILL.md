@@ -12,7 +12,7 @@ Agent-focused testing workflow for modern C++ (C++17/20) using GoogleTest/Google
 ## When to Use
 
 - Writing new C++ tests or fixing existing tests
-- Designing unit/integration test coverage for C++ components
+- Designing unit/integration test coverage for C++ modules
 - Adding test coverage, CI gating, or regression protection
 - Configuring CMake/CTest workflows for consistent execution
 - Investigating test failures or flaky behavior

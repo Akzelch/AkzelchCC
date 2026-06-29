@@ -1,48 +1,51 @@
 # AkzelchCC
 
-Personal Claude Code configuration — version-controlled dotfiles for `~/.claude/`.
+Personal agent customizations packaged as a **cross-tool agent plugin**.
+The repo installs as a single [VS Code agent plugin](https://code.visualstudio.com/docs/agent-customization/agent-plugins)
+that works identically in **Claude Code**, **GitHub Copilot CLI**, and **VS Code
+Copilot** — the same `plugin.json` manifest is read by all three.
 
-## Tools
+## What ships where
 
-| Tool | Config location |
-|------|----------------|
-| Claude Code | `~/.claude/` |
-| GitHub Copilot CLI | `~/.copilot/` |
-| VS Code Copilot (user level) | `~/.claude/*` + VS Code `settings.json` |
+The plugin carries everything the [plugin format](https://code.visualstudio.com/docs/agent-customization/agent-plugins)
+supports; the rest (instructions, rules, memory, model config) can't live in a
+plugin and is still symlinked into `~/.claude/`.
 
-### GitHub Copilot mapping
+| Layer | Delivery | Surfaces |
+|-------|----------|----------|
+| Skills (`skills/*/SKILL.md`) | **plugin** (`plugin.json`) | Claude Code, Copilot CLI, VS Code Copilot |
+| Subagents (`agents/*.agent.md`) | **plugin** (`plugin.json`) | Claude Code, Copilot CLI, VS Code Copilot |
+| MCP servers (`mcp.json`) | **plugin** (`plugin.json`) | Claude Code, Copilot CLI, VS Code Copilot |
+| Always-on instructions (`CLAUDE.md`) | symlink + `chat.useClaudeMdFile` | Claude Code, VS Code Copilot |
+| File-based rules (`rules/`) | symlink + `chat.instructionsFilesLocations` | Claude Code, VS Code Copilot |
+| Memory + model config | symlink (`~/.claude/`) | Claude Code |
+| Copilot CLI instructions | symlink (`~/.copilot/`) | Copilot CLI |
 
-GitHub Copilot natively reads the same Claude-format paths this repo already
-links, so most of the config is shared rather than duplicated.
-
-| What | Copilot CLI | VS Code Copilot reads |
-|------|-------------|-----------------------|
-| Always-on instructions | `~/.copilot/copilot-instructions.md` | `~/.claude/CLAUDE.md` (needs `chat.useClaudeMdFile`) |
-| File-based rules | `~/.copilot/copilot-instructions.md` | `~/.claude/rules` |
-| Skills | `~/.copilot/skills/` | `~/.claude/skills/`, `~/.copilot/skills/` |
-| Agents | `~/.copilot/agents/` | `~/.copilot/agents/` |
-
-The installer enables `chat.useClaudeMdFile` and registers the instruction
-locations in your VS Code user `settings.json` (backed up first). Restart VS
-Code after install for it to pick up the new customizations.
+VS Code auto-detects the plugin format by finding `plugin.json` at the repo
+root; Claude Code reads the identical `.claude-plugin/plugin.json`. The
+marketplace manifest lives at `.claude-plugin/marketplace.json` (discovered by
+all three tools).
 
 ## Structure
 
 ```
-├── CLAUDE.md              # Claude Code: global instructions
-├── settings.json          # Claude Code: model + plugin config
-├── mcp.json               # Claude Code: MCP server definitions (registered to ~/.claude.json on install)
+├── plugin.json            # Plugin manifest (Copilot CLI + VS Code Copilot)
+├── .claude-plugin/
+│   ├── plugin.json        # Plugin manifest (Claude Code) — identical content
+│   └── marketplace.json   # Marketplace manifest (all three tools)
+├── agents/                # Plugin: subagents (*.agent.md)
+├── skills/                # Plugin: skills (*/SKILL.md)
+├── .mcp.json             # Plugin: MCP server definitions (auto-discovered)
+├── CLAUDE.md              # Instruction layer: global instructions
+├── settings.json          # Claude Code: model config
 ├── MEMORY.md              # Claude Code: memory index (auto-loaded)
 ├── memory/                # Claude Code: memory files
 ├── rules/
 │   ├── common/            # Language-agnostic rules (mirrors ECC common/)
 │   ├── personal/          # Personal preferences
 │   └── <lang>/            # Language/framework-specific rules (e.g. typescript/, web/)
-├── agents/                # Claude Code: custom subagent definitions
-├── skills/
-│   └── graphify/          # Claude Code: /graphify knowledge graph skill
-├── commands/              # Claude Code: custom slash commands
-├── hooks/                 # Claude Code: event hook scripts
+├── commands/              # Plugin: custom slash commands
+├── hooks/                 # Plugin: event hooks
 └── copilot/
     ├── copilot-instructions.md  # Copilot CLI: user-level instructions
     └── config.json              # Copilot CLI: CLI settings
@@ -60,13 +63,19 @@ Skills without an entry here produce plain-text or JSON artifacts that work with
 
 ## Install
 
-Requires **Node.js** on your `PATH` (used by the cross-platform installer). All
-the install logic lives in `install.mjs`; the shell scripts are thin wrappers.
+There are two layers: the **plugin** (skills, agents, MCP servers) and the
+**instruction layer** (CLAUDE.md, rules, memory). The `install.mjs` script wires
+up both. You can also install just the plugin manually.
+
+### Full install (plugin + instruction layer)
+
+Requires **Node.js** on your `PATH`. All the install logic lives in
+`install.mjs`; the shell scripts are thin wrappers.
 
 **macOS / Linux / WSL**
 
 ```bash
-git clone <repo-url> ~/Documents/CC-repos/AkzelchCC
+git clone https://github.com/Akzelch/AkzelchCC ~/Documents/CC-repos/AkzelchCC
 cd ~/Documents/CC-repos/AkzelchCC
 ./install.sh        # or: node install.mjs
 ```
@@ -74,21 +83,59 @@ cd ~/Documents/CC-repos/AkzelchCC
 **Windows (PowerShell)**
 
 ```powershell
-git clone <repo-url> $HOME\Documents\CC-repos\AkzelchCC
+git clone https://github.com/Akzelch/AkzelchCC $HOME\Documents\CC-repos\AkzelchCC
 cd $HOME\Documents\CC-repos\AkzelchCC
 .\install.ps1       # or: node install.mjs
 ```
 
-The installer links this repo into `~/.claude/` and `~/.copilot/`, then patches
-the VS Code user `settings.json` (enabling `chat.useClaudeMdFile` and the
-instruction locations). Existing files are backed up with a timestamp suffix
-before being replaced. Re-running is safe — correct links are skipped.
+The installer:
 
-**Linking strategy (no admin required):**
+1. Symlinks the instruction layer into `~/.claude/` and `~/.copilot/`.
+2. Registers this repo as a local marketplace and installs the `akzelchcc`
+   plugin for any of `claude` / `copilot` CLIs found on `PATH`.
+3. Patches the VS Code user `settings.json` — enables `chat.useClaudeMdFile`,
+   registers the rules instruction location, and adds this repo to
+   `chat.pluginLocations` so VS Code Copilot loads the plugin live.
 
-- **Directories** (`agents`, `skills`, `rules/*`, `memory`, `commands`, `hooks`)
-  are linked with **junctions** on Windows / symlinks on POSIX. These need no
-  special privilege and stay live — edits and `git pull` apply instantly.
+Existing files are backed up with a timestamp suffix before being replaced.
+Re-running is safe. Restart VS Code after install.
+
+### Plugin only (manual)
+
+Install just the plugin without the instruction-layer symlinks:
+
+**GitHub Copilot CLI**
+
+```bash
+copilot plugin marketplace add Akzelch/AkzelchCC
+copilot plugin install akzelchcc@akzelchcc
+```
+
+**Claude Code**
+
+```bash
+claude plugin marketplace add Akzelch/AkzelchCC
+claude plugin install akzelchcc@akzelchcc
+```
+
+**VS Code Copilot** — add the marketplace in your user `settings.json`, then
+install from the Extensions view (`@agentPlugins`):
+
+```jsonc
+"chat.plugins.marketplaces": ["Akzelch/AkzelchCC"]
+```
+
+Or, to load a local clone live, point at the repo directory:
+
+```jsonc
+"chat.pluginLocations": { "/path/to/AkzelchCC": true }
+```
+
+### Linking strategy (no admin required)
+
+- **Directories** (`rules/*`, `memory`) are linked with **junctions** on Windows
+  / symlinks on POSIX. These need no special privilege and stay live — edits and
+  `git pull` apply instantly.
 - **Files** (`CLAUDE.md`, `settings.json`, `MEMORY.md`, the two `copilot/`
   files) are symlinked, falling back to a **copy** when symlink privilege is
   missing on Windows. If copied, re-run the installer after editing those files.
@@ -104,7 +151,10 @@ Structure mirrors the [ECC rules](https://github.com/nicholasgasior/ecc) pattern
 
 ## Adding Agents
 
-Create `agents/<name>.md` following the Claude Code agent definition format. Reference it with `subagent_type: "<name>"` in the Agent tool.
+Create `agents/<name>.agent.md` following the agent definition format. The file
+name (minus `.agent.md`) is the agent ID. Reference it with
+`subagent_type: "<name>"` in the Agent tool. Bump the `version` in both
+`plugin.json` files when you publish changes.
 
 ## Adding Skills
 

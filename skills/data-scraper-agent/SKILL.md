@@ -22,9 +22,9 @@ Runs on a schedule, enriches results with a free LLM, stores to a database, and 
 
 ## Core Concepts
 
-### The Three Layers
+### The Three Modules
 
-Every data scraper agent has three layers:
+Every data scraper agent has three modules:
 
 ```
 COLLECT → ENRICH → STORE
@@ -385,7 +385,7 @@ def build_preference_prompt(feedback: dict, max_examples: int = 15) -> str:
     return "\n".join(lines)
 ```
 
-**Integration with your storage layer:** after each run, query your DB for items with positive/negative status and call `save_feedback()` with the extracted patterns.
+**Integration with your storage module:** after each run, query your DB for items with positive/negative status and call `save_feedback()` with the extracted patterns.
 
 ---
 

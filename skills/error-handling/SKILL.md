@@ -11,7 +11,7 @@ Consistent, robust error handling patterns for production applications.
 
 ## When to Activate
 
-- Designing error types or exception hierarchies for a new module or service
+- Designing error types or exception hierarchies for a new module
 - Adding retry logic or circuit breakers for unreliable external dependencies
 - Reviewing API endpoints for missing error handling
 - Implementing user-facing error messages and feedback
@@ -19,7 +19,7 @@ Consistent, robust error handling patterns for production applications.
 
 ## Core Principles
 
-1. **Fail fast and loudly** — surface errors at the boundary where they occur; don't bury them
+1. **Fail fast and loudly** — surface errors at the seam where they occur; don't bury them
 2. **Typed errors over string messages** — errors are first-class values with structure
 3. **User messages ≠ developer messages** — show friendly text to users, log full context server-side
 4. **Never swallow errors silently** — every `catch` block must either handle, re-throw, or log

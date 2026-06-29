@@ -128,7 +128,7 @@ Produce two outputs:
 | Testing | Jest + Playwright | - |
 
 ## Architecture
-[Diagram or description of how components connect]
+[Diagram or description of how modules connect]
 
 ## Key Entry Points
 <!-- Example for a Next.js project — replace with detected paths -->

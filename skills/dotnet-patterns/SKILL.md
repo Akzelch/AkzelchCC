@@ -14,7 +14,7 @@ Idiomatic C# and .NET patterns for building robust, performant, and maintainable
 - Writing new C# code
 - Reviewing C# code
 - Refactoring existing .NET applications
-- Designing service architectures with ASP.NET Core
+- Designing service modules and their seams with ASP.NET Core
 
 ## Core Principles
 
@@ -67,7 +67,7 @@ public sealed class UserService
 
 ### 3. Depend on Abstractions
 
-Use interfaces for service boundaries. Register via DI container.
+Use interfaces at module seams. Register via DI container.
 
 ```csharp
 // Good: Interface-based dependency

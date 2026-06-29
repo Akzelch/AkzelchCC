@@ -14,7 +14,7 @@ Comprehensive, library-agnostic checklist for reviewing Flutter/Dart application
 ## 1. General Project Health
 
 - [ ] Project follows consistent folder structure (feature-first or layer-first)
-- [ ] Proper separation of concerns: UI, business logic, data layers
+- [ ] Clean seam placement between UI, business logic, and data modules
 - [ ] No business logic in widgets; widgets are purely presentational
 - [ ] `pubspec.yaml` is clean — no unused dependencies, versions pinned appropriately
 - [ ] `analysis_options.yaml` includes a strict lint set with strict analyzer settings enabled
@@ -84,9 +84,9 @@ Comprehensive, library-agnostic checklist for reviewing Flutter/Dart application
 These principles apply to all Flutter state management solutions (BLoC, Riverpod, Provider, GetX, MobX, Signals, ValueNotifier, etc.).
 
 ### Architecture:
-- [ ] Business logic lives outside the widget layer — in a state management component (BLoC, Notifier, Controller, Store, ViewModel, etc.)
+- [ ] Business logic lives outside the widget layer — in a state management module (BLoC, Notifier, Controller, Store, ViewModel, etc.)
 - [ ] State managers receive dependencies via injection, not by constructing them internally
-- [ ] A service or repository layer abstracts data sources — widgets and state managers should not call APIs or databases directly
+- [ ] A repository module sits at the seam above data sources — widgets and state managers should not call APIs or databases directly
 - [ ] State managers have a single responsibility — no "god" managers handling unrelated concerns
 - [ ] Cross-component dependencies follow the solution's conventions:
   - In **Riverpod**: providers depending on providers via `ref.watch` is expected — flag only circular or overly tangled chains
@@ -207,7 +207,7 @@ class UserError extends UserState {
 
 ### Test isolation:
 - [ ] External dependencies (API clients, databases, services) are mocked or faked
-- [ ] Each test file tests exactly one class/unit
+- [ ] Each test file tests exactly one class/module
 - [ ] Tests verify behavior, not implementation details
 - [ ] Stubs define only the behavior needed for each test (minimal stubbing)
 - [ ] No shared mutable state between test cases
@@ -374,7 +374,7 @@ class UserError extends UserState {
 ## 14. Dependency Injection
 
 ### Principles (apply to any DI approach):
-- [ ] Classes depend on abstractions (interfaces), not concrete implementations at layer boundaries
+- [ ] Classes depend on abstractions (interfaces), not concrete implementations at module seams
 - [ ] Dependencies provided externally via constructor, DI framework, or provider graph — not created internally
 - [ ] Registration distinguishes lifetime: singleton vs factory vs lazy singleton
 - [ ] Environment-specific bindings (dev/staging/prod) use configuration, not runtime `if` checks

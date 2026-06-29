@@ -12,7 +12,7 @@ Backend architecture patterns and best practices for scalable server-side applic
 ## When to Activate
 
 - Designing REST or GraphQL API endpoints
-- Implementing repository, service, or controller layers
+- Implementing repository, service, or controller modules
 - Optimizing database queries (N+1, indexing, connection pooling)
 - Adding caching (Redis, in-memory, HTTP cache headers)
 - Setting up background jobs or async processing
@@ -70,10 +70,10 @@ class SupabaseMarketRepository implements MarketRepository {
 }
 ```
 
-### Service Layer Pattern
+### Service Module Pattern
 
 ```typescript
-// Business logic separated from data access
+// Business logic placed at a seam above data access
 class MarketService {
   constructor(private marketRepo: MarketRepository) {}
 
@@ -436,7 +436,7 @@ platform's native limiter. Do not use per-process in-memory counters for
 production APIs: they reset on deploy, split across replicas, and fail open in
 serverless or multi-instance environments.
 
-Keep the backend layer responsible for choosing the integration point and error
+Keep the backend module responsible for choosing the integration point and error
 shape; use `api-design` for the HTTP contract and `security-review` for abuse
 case review.
 

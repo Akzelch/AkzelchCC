@@ -26,7 +26,7 @@ Use this skill when:
 
 Examples:
 - onboarding a new maintainer
-- architecture tour for one service or package
+- architecture tour for one module or package
 - PR-review walk-through anchored to changed files
 - RCA tour showing the failure path
 - security review tour of trust boundaries and key checks
@@ -112,7 +112,7 @@ Do not make the first step content-only.
 Use to orient the reader to a module:
 
 ```json
-{ "directory": "src/services", "title": "Service Layer", "description": "The core orchestration logic lives here." }
+{ "directory": "src/services", "title": "Service Module", "description": "The core orchestration logic lives here." }
 ```
 
 ### File + line
@@ -200,7 +200,7 @@ The tour should feel like a path, not an inventory.
       "file": "src/routes/payments.ts",
       "line": 8,
       "title": "Payment Routes",
-      "description": "Every payments request enters through this router before hitting service logic."
+      "description": "Every payments request enters through this router before hitting the service module."
     },
     {
       "title": "Next Steps",
