@@ -95,6 +95,46 @@ function link(srcRel, dst) {
   }
 }
 
+// Convert a rule file's YAML `paths:` block list into the single comma-joined
+// `applyTo:` string that Copilot's *.instructions.md frontmatter requires.
+// Returns null when the file has no `paths:` list (always-on rules).
+function rulePathsToApplyTo(content) {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+  if (!match) return null;
+  const globs = [];
+  let inPaths = false;
+  for (const line of match[1].split(/\r?\n/)) {
+    if (/^paths:\s*$/.test(line)) {
+      inPaths = true;
+      continue;
+    }
+    if (inPaths) {
+      const item = line.match(/^\s*-\s*["']?(.+?)["']?\s*$/);
+      if (item) {
+        globs.push(item[1]);
+        continue;
+      }
+      if (/^\S/.test(line)) inPaths = false;
+    }
+  }
+  return globs.length ? globs.join(', ') : null;
+}
+
+// Drop a leading YAML frontmatter block, returning just the markdown body.
+function stripFrontmatter(content) {
+  const match = content.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);
+  return match ? content.slice(match[0].length) : content;
+}
+
+// Recursively list .md files under a directory, as paths relative to it.
+function listRules(dir, base = dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) return listRules(p, base);
+    return e.name.endsWith('.md') ? [path.relative(base, p)] : [];
+  });
+}
+
 // ── Claude Code (instruction layer) ──────────────────────────────────────────
 // Skills, agents, commands, hooks, and MCP servers now ship via the AkzelchCC
 // plugin (see plugin.json). Only the non-plugin instruction layer is symlinked:
@@ -118,14 +158,34 @@ for (const entry of fs.readdirSync(rulesSrc, { withFileTypes: true })) {
 }
 
 // ── GitHub Copilot CLI (instruction layer) ───────────────────────────────────
-// Skills and agents now ship via the AkzelchCC plugin (installed below). Only
-// the user-level instruction layer is symlinked here.
+// Skills and agents now ship via the AkzelchCC plugin (installed below). The
+// user-level instruction layer is symlinked here, and the file-based rules are
+// transformed into Copilot's *.instructions.md format (see below).
 const COPILOT_DIR = path.join(HOME, '.copilot');
 console.log(`\nGitHub Copilot CLI -> ${COPILOT_DIR}`);
 fs.mkdirSync(COPILOT_DIR, { recursive: true });
 
 link(path.join('copilot', 'copilot-instructions.md'), path.join(COPILOT_DIR, 'copilot-instructions.md'));
 link(path.join('copilot', 'config.json'), path.join(COPILOT_DIR, 'config.json'));
+
+// ── Copilot path-specific instructions (generated) ───────────────────────────
+// Copilot reads NAME.instructions.md files with `applyTo:` (comma-joined globs)
+// frontmatter, whereas the rules use `paths:` (a YAML list). Symlinking can't
+// bridge that, so each rule is transformed into an instructions file written
+// into an isolated, wiped-each-run dir that VS Code settings already point at.
+const INSTRUCTIONS_DIR = path.join(COPILOT_DIR, 'instructions', 'akzelchcc');
+console.log(`\nCopilot instructions -> ${INSTRUCTIONS_DIR}`);
+fs.rmSync(INSTRUCTIONS_DIR, { recursive: true, force: true });
+fs.mkdirSync(INSTRUCTIONS_DIR, { recursive: true });
+
+for (const rel of listRules(rulesSrc)) {
+  const content = fs.readFileSync(path.join(rulesSrc, rel), 'utf8');
+  const applyTo = rulePathsToApplyTo(content) ?? '**';
+  const name = rel.replace(/\.md$/, '').replace(/[\\/]/g, '-');
+  const out = path.join(INSTRUCTIONS_DIR, `${name}.instructions.md`);
+  fs.writeFileSync(out, `---\napplyTo: "${applyTo}"\n---\n${stripFrontmatter(content)}`);
+}
+console.log(c.green(`  GEN ${INSTRUCTIONS_DIR} (${listRules(rulesSrc).length} instruction files)`));
 
 // ── VS Code (GitHub Copilot) ─────────────────────────────────────────────────
 // VS Code Copilot reads the Claude-format instruction layer (~/.claude/CLAUDE.md,
