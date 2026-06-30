@@ -1,6 +1,6 @@
 ---
 name: browser-qa
-description: Use this skill to automate visual testing and UI interaction verification using browser automation after deploying features. Also when reviewing PRs that touch frontend code, or for accessibility and responsive testing.
+description: Browser automation QA — visual testing, UI interaction verification, accessibility checks, and responsive sweeps on deployed features and frontend PRs using Playwright, Puppeteer, or claude-in-chrome.
 metadata:
   origin: ECC
 ---
