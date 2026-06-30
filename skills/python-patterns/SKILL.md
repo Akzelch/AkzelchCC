@@ -9,13 +9,6 @@ metadata:
 
 Idiomatic Python patterns and best practices for building robust, efficient, and maintainable applications.
 
-## When to Activate
-
-- Writing new Python code
-- Reviewing Python code
-- Refactoring existing Python code
-- Designing Python packages/modules
-
 ## Core Principles
 
 ### 1. Readability Counts

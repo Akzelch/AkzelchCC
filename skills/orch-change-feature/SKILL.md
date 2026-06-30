@@ -10,14 +10,6 @@ metadata:
 Actor · action · target: **orch · change · feature**. Thin wrapper over the
 shared engine in [`orch-pipeline`](../orch-pipeline/SKILL.md).
 
-## When to Use
-
-- An existing feature **works**, but the desired behavior is different ("change",
-  "adjust", "make it also …", "instead of X do Y").
-- Distinguish from siblings:
-  - **not** broken → not `orch-fix-defect` (no bug to reproduce).
-  - **not** new → not `orch-add-feature` (the capability already exists).
-
 ## Operation settings
 
 - **Default size floor:** small — most tweaks are a function or two.

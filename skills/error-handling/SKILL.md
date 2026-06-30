@@ -9,14 +9,6 @@ metadata:
 
 Consistent, robust error handling patterns for production applications.
 
-## When to Activate
-
-- Designing error types or exception hierarchies for a new module
-- Adding retry logic or circuit breakers for unreliable external dependencies
-- Reviewing API endpoints for missing error handling
-- Implementing user-facing error messages and feedback
-- Debugging cascading failures or silent error swallowing
-
 ## Core Principles
 
 1. **Fail fast and loudly** — surface errors at the seam where they occur; don't bury them

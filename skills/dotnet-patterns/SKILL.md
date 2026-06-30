@@ -9,13 +9,6 @@ metadata:
 
 Idiomatic C# and .NET patterns for building robust, performant, and maintainable applications.
 
-## When to Activate
-
-- Writing new C# code
-- Reviewing C# code
-- Refactoring existing .NET applications
-- Designing service modules and their seams with ASP.NET Core
-
 ## Core Principles
 
 ### 1. Prefer Immutability

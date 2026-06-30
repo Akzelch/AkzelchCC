@@ -1,21 +1,12 @@
 ---
 name: agent-self-evaluation
-description: Use after completing any non-trivial task. The agent self-rates its output on 5 axes — accuracy, completeness, clarity, actionability, conciseness — with concrete evidence per criterion. Produces a structured 1-5 scorecard with specific improvement suggestions.
+description: Use after completing any non-trivial task. The agent self-rates its output on 5 axes — accuracy, completeness, clarity, actionability, conciseness — with concrete evidence per criterion. Produces a structured 1-5 scorecard with specific improvement suggestions. Also when the user asks to rate the output, or at the end of any session.
 origin: ECC
 ---
 
 # Agent Self-Evaluation
 
 After completing a complex task, the agent pauses to rate its own output against a structured 5-axis rubric. This is NOT a pass/fail gate — it's a deliberate reflection step that catches omissions, flags overconfidence, and surface areas for improvement before the user has to.
-
-## When to Activate
-
-- After writing code that spans 3+ files or 50+ lines
-- After completing a multi-step workflow (implement → test → review)
-- After a debugging session that involved 3+ attempts
-- After producing a design document, architecture decision, or written analysis
-- When the user asks "how good was that?" or "rate yourself"
-- At the end of any session Stop hook (if configured — see `references/hook-integration.md`)
 
 ## Core Concepts
 

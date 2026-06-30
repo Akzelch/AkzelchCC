@@ -1,19 +1,11 @@
 ---
 name: browser-qa
-description: Use this skill to automate visual testing and UI interaction verification using browser automation after deploying features.
+description: Use this skill to automate visual testing and UI interaction verification using browser automation after deploying features. Also when reviewing PRs that touch frontend code, or for accessibility and responsive testing.
 metadata:
   origin: ECC
 ---
 
 # Browser QA — Automated Visual Testing & Interaction
-
-## When to Use
-
-- After deploying a feature to staging/preview
-- When you need to verify UI behavior across pages
-- Before shipping — confirm layouts, forms, interactions actually work
-- When reviewing PRs that touch frontend code
-- Accessibility audits and responsive testing
 
 ## How It Works
 

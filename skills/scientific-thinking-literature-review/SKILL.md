@@ -10,15 +10,6 @@ metadata:
 Use this skill when the task is to find, screen, synthesize, and cite a body of
 academic or technical literature.
 
-## When to Use
-
-- Building a systematic, scoping, or narrative literature review.
-- Synthesizing the state of the art for a research question.
-- Finding gaps, contradictions, or future-work directions.
-- Preparing citation-backed background sections for papers or reports.
-- Comparing evidence across peer-reviewed papers, preprints, patents, and
-  technical reports.
-
 ## Review Types
 
 - **Narrative review**: broad synthesis; useful for orientation.

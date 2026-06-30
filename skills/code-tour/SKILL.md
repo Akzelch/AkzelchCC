@@ -1,6 +1,6 @@
 ---
 name: code-tour
-description: Create CodeTour `.tour` files — persona-targeted, step-by-step walkthroughs with real file and line anchors. Use for onboarding tours, architecture walkthroughs, PR tours, RCA tours, and structured "explain how this works" requests.
+description: Create CodeTour `.tour` files — persona-targeted, step-by-step walkthroughs with real file and line anchors. Use for onboarding tours, architecture walkthroughs, PR tours, RCA tours, and structured "explain how this works" requests. Do NOT use for one-off chat explanations, prose docs, implementation or refactoring tasks, or broad codebase onboarding without a tour artifact.
 metadata:
   origin: ECC
 ---
@@ -15,30 +15,6 @@ A good tour is a narrative for a specific reader:
 - what path they should follow next
 
 Only create `.tour` JSON files. Do not modify source code as part of this skill.
-
-## When to Use
-
-Use this skill when:
-- the user asks for a code tour, onboarding tour, architecture walkthrough, or PR tour
-- the user says "explain how X works" and wants a reusable guided artifact
-- the user wants a ramp-up path for a new engineer or reviewer
-- the task is better served by a guided sequence than a flat summary
-
-Examples:
-- onboarding a new maintainer
-- architecture tour for one module or package
-- PR-review walk-through anchored to changed files
-- RCA tour showing the failure path
-- security review tour of trust boundaries and key checks
-
-## When NOT to Use
-
-| Instead of code-tour | Use |
-| --- | --- |
-| A one-off explanation in chat is enough | answer directly |
-| The user wants prose docs, not a `.tour` artifact | `documentation-lookup` or repo docs editing |
-| The task is implementation or refactoring | do the implementation work |
-| The task is broad codebase onboarding without a tour artifact | `codebase-onboarding` |
 
 ## Workflow
 

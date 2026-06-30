@@ -9,14 +9,6 @@ metadata:
 
 Produce research that supports decisions, not research theater.
 
-## When to Activate
-
-- researching a market, category, company, investor, or technology trend
-- building TAM/SAM/SOM estimates
-- comparing competitors or adjacent products
-- preparing investor dossiers before outreach
-- pressure-testing a thesis before building, funding, or entering a market
-
 ## Research Standards
 
 1. Every important claim needs a source.

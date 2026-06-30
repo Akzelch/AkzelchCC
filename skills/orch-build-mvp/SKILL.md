@@ -10,12 +10,6 @@ metadata:
 Actor · action · target: **orch · build · mvp**. Thin wrapper over the shared
 engine in [`orch-pipeline`](../orch-pipeline/SKILL.md).
 
-## When to Use
-
-- The user has a **design / spec document** (SDD, PRD, system_design) and wants a
-  working vertical slice bootstrapped from it.
-- Takes a doc path as its argument, e.g. `civicpulse/docs/SDD-v0.6.md`.
-
 ## Operation settings
 
 - **Default size floor:** large — this is the full pipeline including Scaffold.

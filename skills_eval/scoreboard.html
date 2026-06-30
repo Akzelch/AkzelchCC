@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Skills evaluation — scoreboard</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .filters { margin: 0.75rem 0 1rem; display: flex; gap: 0.75rem; align-items: center; font-size: 0.85rem; color: var(--muted); flex-wrap: wrap; }
+  .filters input { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 4px; padding: 0.35rem 0.6rem; font-size: 0.85rem; min-width: 240px; }
+  th { cursor: pointer; user-select: none; }
+  th:hover { color: var(--accent); }
+  th.sorted::after { content: " ▾"; color: var(--accent); font-size: 0.7rem; }
+  th.sorted.asc::after { content: " ▴"; color: var(--accent); }
+</style>
+</head>
+<body>
+<nav><div class="inner">
+  <span class="brand">AkzelchCC · skills evaluation</span>
+  <a href="index.html">Overview</a>
+  <a href="scoreboard.html" class="active">Scoreboard</a>
+  <a href="patterns.html">Patterns &amp; fixes</a>
+</div></nav>
+
+<div class="container">
+  <h1>Full scoreboard</h1>
+  <p class="section-intro">All 90 skills ranked by average score. Click a column to sort; type to filter.</p>
+
+  <div class="filters">
+    <input id="filter" type="text" placeholder="Filter by name…" />
+    <span>INV = invocation · DESC = description · HIER = hierarchy · COMP = completion · DISC = disclosure · LEAD = leading words · COLO = co-location · PRUN = pruning</span>
+  </div>
+
+  <table id="scoreboard">
+    <thead><tr>
+      <th data-key="name">Skill</th>
+      <th data-key="type">Type</th>
+      <th data-key="lines" class="num">Lines</th>
+      <th data-key="inv" class="num">INV</th>
+      <th data-key="desc" class="num">DESC</th>
+      <th data-key="hier" class="num">HIER</th>
+      <th data-key="comp" class="num">COMP</th>
+      <th data-key="disc" class="num">DISC</th>
+      <th data-key="lead" class="num">LEAD</th>
+      <th data-key="colo" class="num">COLO</th>
+      <th data-key="prun" class="num">PRUN</th>
+      <th data-key="avg" class="num sorted">Avg</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <p class="footer">90 rows. Scores from <code>group-01.md</code>…<code>group-09.md</code>.</p>
+</div>
+
+<script>
+const data = [
+  ["agent-architecture-audit","model",258,4,3,3,3,2,4,4,3,3.30],
+  ["agent-harness-construction","model",75,4,3,4,3,5,4,4,3,3.75],
+  ["agent-self-evaluation","model",183,3,2,3,4,3,4,4,3,3.30],
+  ["agentic-engineering","model",65,4,4,4,3,5,4,4,4,4.00],
+  ["ai-regression-testing","model",382,4,3,3,3,2,4,4,2,3.10],
+  ["align-vocabulary","user",52,5,4,4,5,5,4,5,4,4.50],
+  ["article-writing","model",80,3,2,3,4,3,4,4,3,3.30],
+  ["aside","model",165,2,4,4,3,3,4,4,3,3.40],
+  ["backend-patterns","model",562,4,4,2,2,1,4,4,2,2.90],
+  ["blueprint","model",107,4,3,3,3,3,4,3,3,3.30],
+  ["brand-voice","model",99,4,4,3,2,4,2,3,3,3.10],
+  ["browser-qa","model",106,3,2,4,4,3,3,4,3,3.30],
+  ["bun-runtime","model",86,4,4,4,3,4,3,4,4,3.80],
+  ["caveman","model",50,5,5,4,4,4,5,4,5,4.50],
+  ["code-tour","model",238,4,4,4,4,3,2,4,3,3.50],
+  ["codebase-design","model",115,4,4,4,3,5,5,4,3,4.00],
+  ["codebase-onboarding","model",235,4,4,4,3,2,3,4,2,3.30],
+  ["coding-standards","model",552,3,3,2,2,1,3,4,1,2.40],
+  ["config-gc","model",121,5,5,4,3,4,5,4,3,4.10],
+  ["context-budget","model",137,3,3,4,4,4,3,4,3,3.50],
+  ["cost-aware-llm-pipeline","model",185,3,3,3,3,2,2,2,2,2.50],
+  ["council","model",205,4,4,4,3,3,4,3,3,3.50],
+  ["cpp-testing","model",325,4,4,3,2,2,3,2,2,2.75],
+  ["dart-flutter-patterns","model",565,2,2,3,3,1,2,3,2,2.25],
+  ["data-scraper-agent","model",766,3,2,4,3,1,3,2,1,2.38],
+  ["deep-research","model",165,4,3,4,3,3,3,4,3,3.38],
+  ["design-system","model",84,3,3,3,2,4,3,4,2,3.00],
+  ["diagnosing-bugs","model",135,4,4,5,5,4,5,5,4,4.50],
+  ["docker-patterns","model",366,3,3,3,3,2,2,3,3,2.75],
+  ["documentation-lookup","model",92,5,4,4,3,4,4,4,3,3.88],
+  ["domain-modeling","model",75,4,4,4,3,4,3,4,4,3.80],
+  ["dotnet-patterns","model",323,2,2,2,3,2,2,3,2,2.30],
+  ["error-handling","model",378,3,3,2,3,2,3,4,2,2.90],
+  ["exa-search","model",108,4,3,2,3,3,3,4,3,3.10],
+  ["flutter-dart-code-review","model",436,2,2,3,4,2,2,4,3,2.80],
+  ["frontend-a11y","model",447,4,4,3,4,2,3,4,3,3.40],
+  ["frontend-patterns","model",658,2,2,2,2,1,2,3,2,2.00],
+  ["frontend-slides","model",186,4,4,4,4,4,3,4,3,3.80],
+  ["git-workflow","model",716,2,2,2,2,1,2,3,1,1.90],
+  ["google-workspace-ops","model",97,4,4,4,3,4,3,4,3,3.60],
+  ["graphify","model",617,4,3,4,3,4,3,4,2,3.40],
+  ["grill-with-docs","model",88,4,4,3,2,3,4,4,3,3.40],
+  ["handoff","user",17,5,4,4,3,3,3,4,4,3.80],
+  ["homelab-network-readiness","model",170,4,3,4,4,3,3,4,3,3.50],
+  ["homelab-network-setup","model",130,3,2,4,3,3,2,4,3,3.00],
+  ["homelab-pihole-dns","model",276,3,2,4,3,2,2,4,2,2.80],
+  ["homelab-vlan-segmentation","model",313,3,2,3,3,2,2,4,2,2.60],
+  ["homelab-wireguard-vpn","model",307,3,2,3,3,2,3,4,2,2.80],
+  ["improve-codebase-architecture","model",82,4,4,4,3,4,5,4,3,3.90],
+  ["lead-intelligence","model",322,3,3,3,2,2,3,3,2,2.60],
+  ["market-research","model",77,4,3,3,3,4,2,3,3,3.10],
+  ["mcp-server-patterns","model",71,5,4,3,3,4,2,3,3,3.40],
+  ["motion-advanced","model",597,4,3,4,3,2,3,4,3,3.30],
+  ["motion-foundations","model",300,5,3,4,3,3,4,4,3,3.60],
+  ["motion-patterns","model",435,4,4,4,3,2,3,4,3,3.40],
+  ["motion-ui","model",576,2,2,2,2,1,2,2,1,1.75],
+  ["network-config-validation","model",206,5,4,4,4,3,4,4,3,3.90],
+  ["network-interface-health","model",154,5,5,4,4,4,4,4,4,4.25],
+  ["opensource-pipeline","model",256,4,3,4,4,3,3,4,3,3.50],
+  ["orch-add-feature","model",46,5,4,5,4,5,3,4,5,4.40],
+  ["orch-build-mvp","model",49,3,3,4,3,3,4,4,3,3.40],
+  ["orch-change-feature","model",44,3,3,4,3,4,4,4,3,3.50],
+  ["orch-fix-defect","model",44,4,4,4,4,4,5,4,3,4.00],
+  ["orch-pipeline","model",122,4,4,4,4,3,5,4,3,3.90],
+  ["orch-refine-code","model",45,4,4,4,4,4,4,4,3,3.90],
+  ["product-lens","model",94,2,2,3,2,2,3,3,2,2.40],
+  ["prototype","user",32,5,4,5,3,5,4,4,4,4.30],
+  ["python-patterns","model",752,2,1,3,2,1,3,3,1,2.00],
+  ["python-testing","model",818,2,1,3,2,1,3,3,1,2.00],
+  ["pytorch-patterns","model",398,2,1,3,2,2,4,4,2,2.50],
+  ["react-patterns","model",343,4,4,4,3,3,3,4,3,3.50],
+  ["react-performance","model",576,3,3,3,3,2,3,4,3,3.00],
+  ["react-testing","model",425,4,4,3,3,3,4,4,3,3.50],
+  ["regex-vs-llm-structured-text","model",220,4,4,4,3,4,3,4,3,3.60],
+  ["remotion-video-creation","model",44,3,3,4,3,5,2,3,3,3.30],
+  ["research-ops","model",115,3,3,4,4,4,4,4,3,3.60],
+  ["resolving-merge-conflicts","model",15,2,2,5,4,5,3,5,5,3.90],
+  ["santa-method","model",305,4,4,4,4,3,4,4,3,3.75],
+  ["scientific-thinking-literature-review","model",195,3,4,5,4,4,5,5,4,4.25],
+  ["scientific-thinking-scholar-evaluation","model",165,4,4,4,4,4,4,4,4,4.00],
+  ["search-first","model",184,3,2,3,2,2,2,3,2,2.40],
+  ["security-review","model",505,4,4,2,3,1,3,4,1,2.75],
+  ["security-scan","model",166,4,3,3,2,3,3,4,3,3.10],
+  ["skill-comply","model",60,3,2,3,2,3,3,4,3,2.90],
+  ["skill-scout","model",142,4,4,4,3,3,3,4,3,3.50],
+  ["skill-stocktake","model",196,3,4,4,4,3,4,4,3,3.60],
+  ["tdd","model",109,4,4,4,4,4,5,4,3,4.00],
+  ["teach","user",141,4,4,3,2,4,5,5,3,3.75],
+  ["token-budget-advisor","model",135,2,2,4,4,2,4,4,1,2.90],
+  ["writing-great-skills","user",83,5,4,5,4,5,5,5,5,4.75]
+];
+
+function cls(n) {
+  if (n >= 4.5) return 's-excellent';
+  if (n >= 3.5) return 's-good';
+  if (n >= 2.5) return 's-mid';
+  return 's-bad';
+}
+function typeBadge(t) {
+  return t === 'user'
+    ? '<span class="pill tag-user">user</span>'
+    : '<span class="pill tag-model">model</span>';
+}
+
+const tbody = document.querySelector('#scoreboard tbody');
+function render(arr) {
+  tbody.innerHTML = arr.map(r => `
+    <tr>
+      <td>${r[0]}</td>
+      <td>${typeBadge(r[1])}</td>
+      <td class="num">${r[2]}</td>
+      <td class="num"><span class="score ${cls(r[3])}">${r[3]}</span></td>
+      <td class="num"><span class="score ${cls(r[4])}">${r[4]}</span></td>
+      <td class="num"><span class="score ${cls(r[5])}">${r[5]}</span></td>
+      <td class="num"><span class="score ${cls(r[6])}">${r[6]}</span></td>
+      <td class="num"><span class="score ${cls(r[7])}">${r[7]}</span></td>
+      <td class="num"><span class="score ${cls(r[8])}">${r[8]}</span></td>
+      <td class="num"><span class="score ${cls(r[9])}">${r[9]}</span></td>
+      <td class="num"><span class="score ${cls(r[10])}">${r[10]}</span></td>
+      <td class="num"><span class="score ${cls(r[11])}">${r[11].toFixed(2)}</span></td>
+    </tr>`).join('');
+}
+
+let working = [...data].sort((a, b) => b[11] - a[11]);
+render(working);
+
+document.getElementById('filter').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  render(working.filter(r => r[0].toLowerCase().includes(q)));
+});
+
+const headers = document.querySelectorAll('th');
+const keyIdx = { name:0, type:1, lines:2, inv:3, desc:4, hier:5, comp:6, disc:7, lead:8, colo:9, prun:10, avg:11 };
+let sortKey = 'avg', asc = false;
+headers.forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.key;
+    if (key === sortKey) asc = !asc; else { sortKey = key; asc = key === 'name'; }
+    headers.forEach(h => h.classList.remove('sorted', 'asc'));
+    th.classList.add('sorted'); if (asc) th.classList.add('asc');
+    const i = keyIdx[key];
+    working.sort((a, b) => {
+      const av = a[i], bv = b[i];
+      if (typeof av === 'number') return asc ? av - bv : bv - av;
+      return asc ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+    });
+    const q = document.getElementById('filter').value.toLowerCase();
+    render(working.filter(r => r[0].toLowerCase().includes(q)));
+  });
+});
+</script>
+</body>
+</html>

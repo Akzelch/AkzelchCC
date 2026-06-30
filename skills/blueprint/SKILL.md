@@ -18,15 +18,6 @@ metadata:
 
 Turn a one-line objective into a step-by-step construction plan that any coding agent can execute cold.
 
-## When to Use
-
-- Breaking a large feature into multiple PRs with clear dependency order
-- Planning a refactor or migration that spans multiple sessions
-- Coordinating parallel workstreams across sub-agents
-- Any task where context loss between sessions would cause rework
-
-**Do not use** for tasks completable in a single PR, fewer than 3 tool calls, or when the user says "just do it."
-
 ## How It Works
 
 Blueprint runs a 5-phase pipeline:

@@ -9,14 +9,6 @@ metadata:
 
 This skill is for operating shared docs, spreadsheets, and decks as working systems, not just editing one file in isolation.
 
-## When to Use
-
-- User needs to find a doc, sheet, or deck and update it in place
-- Consolidating plans, trackers, notes, or customer lists stored in Google Drive
-- Cleaning or restructuring a shared spreadsheet
-- Importing, repairing, or reformatting a Google Slides deck
-- Producing summaries from Docs, Sheets, or Slides for decision-making
-
 ## Preferred Tool Surface
 
 Use Google Drive as the entry point, then switch to the right specialist:

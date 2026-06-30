@@ -10,13 +10,6 @@ metadata:
 Actor · action · target: **orch · add · feature**. Thin wrapper over the shared
 engine in [`orch-pipeline`](../orch-pipeline/SKILL.md).
 
-## When to Use
-
-- The user wants a capability that does **not exist yet** ("add", "build",
-  "implement", "support …").
-- It is net-new behavior — not a correction (`orch-fix-defect`) and not an
-  alteration of existing behavior (`orch-change-feature`).
-
 ## Operation settings
 
 - **Default size floor:** standard — run Research + Plan unless clearly small.

@@ -13,15 +13,6 @@ metadata:
 
 Neural search for web content, code, companies, and people via the Exa MCP server.
 
-## When to Activate
-
-- User needs current web information or news
-- Searching for code examples, API docs, or technical references
-- Researching companies, competitors, or market players
-- Finding professional profiles or people in a domain
-- Running background research for any development task
-- User says "search for", "look up", "find", or "what's the latest on"
-
 ## MCP Requirement
 
 Exa MCP server must be configured. Add to `~/.claude.json`:

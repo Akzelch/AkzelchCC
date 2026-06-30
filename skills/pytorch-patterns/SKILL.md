@@ -9,14 +9,6 @@ metadata:
 
 Idiomatic PyTorch patterns and best practices for building robust, efficient, and reproducible deep learning applications.
 
-## When to Activate
-
-- Writing new PyTorch models or training scripts
-- Reviewing deep learning code
-- Debugging training loops or data pipelines
-- Optimizing GPU memory usage or training speed
-- Setting up reproducible experiments
-
 ## Core Principles
 
 ### 1. Device-Agnostic Code

@@ -10,13 +10,6 @@ metadata:
 Actor · action · target: **orch · fix · defect**. Thin wrapper over the shared
 engine in [`orch-pipeline`](../orch-pipeline/SKILL.md).
 
-## When to Use
-
-- Something is **broken**: wrong output, an error, a crash, a regression.
-- Distinguish from siblings:
-  - behavior is correct but you want it different → `orch-change-feature`.
-  - the capability does not exist yet → `orch-add-feature`.
-
 ## Operation settings
 
 - **Default size floor:** small (often trivial).

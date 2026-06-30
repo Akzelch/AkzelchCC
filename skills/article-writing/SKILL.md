@@ -9,13 +9,6 @@ metadata:
 
 Write long-form content that sounds like an actual person with a point of view, not an LLM smoothing itself into paste.
 
-## When to Activate
-
-- drafting blog posts, essays, launch posts, guides, tutorials, or newsletter issues
-- turning notes, transcripts, or research into polished articles
-- matching an existing founder, operator, or brand voice from examples
-- tightening structure, pacing, and evidence in already-written long-form copy
-
 ## Core Rules
 
 1. Lead with the concrete thing: artifact, example, output, anecdote, number, screenshot, or code.

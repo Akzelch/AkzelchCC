@@ -11,16 +11,6 @@ Pi-hole is a network-wide DNS ad blocker that runs on a Raspberry Pi or any Linu
 Every device on your network gets ad and malware domain blocking automatically — no browser
 extension needed.
 
-## When to Use
-
-- Installing Pi-hole on a Raspberry Pi or Linux host
-- Configuring Pi-hole as the DNS server for a home network
-- Adding or managing blocklists
-- Setting up DNS-over-HTTPS (DoH) upstream resolvers
-- Creating local DNS records (e.g. `nas.home.lan`, `pi.home.lan`)
-- Troubleshooting devices that lose internet access after Pi-hole is installed
-- Running Pi-hole alongside or instead of DHCP
-
 ## How Pi-hole Works
 
 ```

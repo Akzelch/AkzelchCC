@@ -1,6 +1,6 @@
 ---
 name: ai-regression-testing
-description: Regression testing strategies for AI-assisted development. Sandbox-mode API testing without database dependencies, automated bug-check workflows, and patterns to catch AI blind spots where the same model writes and reviews code.
+description: Regression testing strategies for AI-assisted development. Sandbox-mode API testing without database dependencies, automated bug-check workflows, and patterns to catch AI blind spots where the same model writes and reviews code. Trigger when a sandbox or mock mode exists, when running /bug-check, or after fixing a bug to prevent re-introduction.
 metadata:
   origin: ECC
 ---
@@ -8,14 +8,6 @@ metadata:
 # AI Regression Testing
 
 Testing patterns specifically designed for AI-assisted development, where the same model writes code and reviews it — creating systematic blind spots that only automated tests can catch.
-
-## When to Activate
-
-- AI agent (Claude Code, Cursor, Codex) has modified API routes or backend logic
-- A bug was found and fixed — need to prevent re-introduction
-- Project has a sandbox/mock mode that can be leveraged for DB-free testing
-- Running `/bug-check` or similar review commands after code changes
-- Multiple code paths exist (sandbox vs production, feature flags, etc.)
 
 ## The Core Problem
 

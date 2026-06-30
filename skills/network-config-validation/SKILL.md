@@ -10,15 +10,6 @@ metadata:
 Use this skill to review network configuration before a change window or before
 an automation run touches production devices.
 
-## When to Use
-
-- Reviewing Cisco IOS or IOS-XE style snippets before deployment.
-- Auditing generated config from scripts or templates.
-- Looking for dangerous commands, duplicate IP addresses, or subnet overlaps.
-- Checking whether ACLs, route-maps, prefix-lists, or line policies are referenced
-  but not defined.
-- Building lightweight pre-flight scripts for network automation.
-
 ## How It Works
 
 Treat config validation as layered evidence, not as a complete parser. Regex

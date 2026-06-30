@@ -1,6 +1,6 @@
 ---
 name: skill-comply
-description: Visualize whether skills, rules, and agent definitions are actually followed — auto-generates scenarios at 3 prompt strictness levels, runs agents, classifies behavioral sequences, and reports compliance rates with full tool call timelines
+description: Visualize whether skills, rules, and agent definitions are actually followed — auto-generates scenarios at 3 prompt strictness levels, runs agents, classifies behavioral sequences, and reports compliance rates with full tool call timelines. Trigger when the user runs /skill-comply, asks whether a rule is followed, after adding new rules or skills, or periodically for quality maintenance.
 metadata:
   origin: ECC
 tools: Read, Bash
@@ -21,13 +21,6 @@ Measures whether coding agents actually follow skills, rules, or agent definitio
 - **Skills** (`skills/*/SKILL.md`): Workflow skills like search-first, TDD guides
 - **Rules** (`rules/common/*.md`): Mandatory rules like testing.md, security.md, git-workflow.md
 - **Agent definitions** (`agents/*.md`): Whether an agent gets invoked when expected (internal workflow verification not yet supported)
-
-## When to Activate
-
-- User runs `/skill-comply <path>`
-- User asks "is this rule actually being followed?"
-- After adding new rules/skills, to verify agent compliance
-- Periodically as part of quality maintenance
 
 ## Usage
 

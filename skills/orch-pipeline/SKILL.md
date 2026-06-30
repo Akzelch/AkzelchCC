@@ -14,12 +14,6 @@ each phase to an existing ECC agent or command. This file is that pipeline.
 > Invoke an operation skill (`orch-add-feature`, `orch-fix-defect`, …) rather
 > than this engine directly. This file is the reference they point at.
 
-## When to Use
-
-- Loaded indirectly whenever an `orch-*` operation skill runs.
-- Read directly only when adding a new operation to the family or tuning the
-  shared phases, gates, or agent map.
-
 ## The operation family
 
 | Skill | Operation | Trigger | First move |

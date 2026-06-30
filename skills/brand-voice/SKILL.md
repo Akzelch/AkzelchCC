@@ -9,13 +9,6 @@ metadata:
 
 Build a durable voice profile from real source material, then use that profile everywhere instead of re-deriving style from scratch or defaulting to generic AI copy.
 
-## When to Activate
-
-- the user wants content or outreach in a specific voice
-- writing for X, LinkedIn, email, launch posts, threads, or product updates
-- adapting a known author's tone across channels
-- the existing content lane needs a reusable style system instead of one-off mimicry
-
 ## Source Priority
 
 Use the strongest real source set available, in this order:

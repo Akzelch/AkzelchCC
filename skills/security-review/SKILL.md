@@ -1,6 +1,6 @@
 ---
 name: security-review
-description: Use this skill when adding authentication, handling user input, working with secrets, creating API endpoints, or implementing payment/sensitive features. Provides comprehensive security checklist and patterns.
+description: Use this skill when adding authentication, handling user input, working with secrets, creating API endpoints, or implementing payment/sensitive features. Provides comprehensive security checklist and patterns. Also for file uploads, storing or transmitting sensitive data, and integrating third-party APIs.
 metadata:
   origin: ECC
 ---
@@ -8,16 +8,6 @@ metadata:
 # Security Review Skill
 
 This skill ensures all code follows security best practices and identifies potential vulnerabilities.
-
-## When to Activate
-
-- Implementing authentication or authorization
-- Handling user input or file uploads
-- Creating new API endpoints
-- Working with secrets or credentials
-- Implementing payment features
-- Storing or transmitting sensitive data
-- Integrating third-party APIs
 
 ## Security Checklist
 

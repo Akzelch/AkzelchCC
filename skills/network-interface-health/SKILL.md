@@ -10,14 +10,6 @@ metadata:
 Use this skill when a network symptom might be caused by a physical link, switch
 port, cable, transceiver, duplex setting, or congested interface.
 
-## When to Use
-
-- A host or VLAN has packet loss, latency spikes, or intermittent reachability.
-- A switch or router interface shows CRCs, runts, giants, drops, resets, or flaps.
-- You need to compare both ends of a link before replacing hardware.
-- A change window needs before/after interface counter evidence.
-- Monitoring reports rising `ifInErrors`, `ifOutErrors`, or `ifOutDiscards`.
-
 ## How It Works
 
 Interface counters are evidence, but the trend matters more than the absolute

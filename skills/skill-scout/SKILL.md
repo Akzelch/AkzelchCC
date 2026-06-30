@@ -13,18 +13,6 @@ before adoption.
 
 Source: salvaged from stale community PR #1232 by `redminwang`.
 
-## When to Use
-
-- The user says "create a skill", "build a skill", "make a skill", or "new
-  skill".
-- The user asks "is there a skill for X?" or "does a skill exist that does Y?"
-- The user describes a workflow and you are about to suggest creating a new
-  skill.
-- The user wants to fork or extend an existing skill.
-
-If the user explicitly says to skip search or create from scratch, acknowledge
-that and proceed with the requested creation workflow.
-
 ## How It Works
 
 ### Step 1 - Capture Intent

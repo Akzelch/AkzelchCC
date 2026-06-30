@@ -15,15 +15,6 @@ This skill is the shared floor, not the detailed framework playbook.
 - Use `backend-patterns` or `api-design` for repository/service layers, endpoint design, validation, and server-specific concerns.
 - Use `rules/common/coding-style.md` when you need the shortest reusable rule layer instead of a full skill walkthrough.
 
-## When to Activate
-
-- Starting a new project or module
-- Reviewing code for quality and maintainability
-- Refactoring existing code to follow conventions
-- Enforcing naming, formatting, or structural consistency
-- Setting up linting, formatting, or type-checking rules
-- Onboarding new contributors to coding conventions
-
 ## Scope Boundaries
 
 Activate this skill for:

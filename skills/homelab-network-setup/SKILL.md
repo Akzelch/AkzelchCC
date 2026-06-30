@@ -1,6 +1,6 @@
 ---
 name: homelab-network-setup
-description: Practical home and homelab network planning for gateways, switches, access points, IP ranges, DHCP reservations, DNS, cabling, and common beginner mistakes.
+description: Practical home and homelab network planning for gateways, switches, access points, IP ranges, DHCP reservations, DNS, cabling, and common beginner mistakes. Also for troubleshooting new networks with double NAT, unstable Wi-Fi, or changing server addresses.
 metadata:
   origin: community
 ---
@@ -9,15 +9,6 @@ metadata:
 
 Use this skill to design a home or small-lab network that can grow without
 needing a full rebuild.
-
-## When to Use
-
-- Planning a new home network or redesigning an ISP-router-only setup.
-- Choosing gateway, switch, and access point roles.
-- Designing IP ranges, DHCP scopes, static reservations, and DNS.
-- Preparing for future VLANs, Pi-hole, NAS, lab servers, or VPN access.
-- Troubleshooting a new network that has double NAT, unstable Wi-Fi, or changing
-  server addresses.
 
 ## How It Works
 

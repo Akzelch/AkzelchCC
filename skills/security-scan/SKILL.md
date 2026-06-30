@@ -1,6 +1,6 @@
 ---
 name: security-scan
-description: Scan your Claude Code configuration (.claude/ directory) for security vulnerabilities, misconfigurations, and injection risks using AgentShield. Checks CLAUDE.md, settings.json, MCP servers, hooks, and agent definitions.
+description: Scan your Claude Code configuration (.claude/ directory) for security vulnerabilities, misconfigurations, and injection risks using AgentShield. Checks CLAUDE.md, settings.json, MCP servers, hooks, and agent definitions. Trigger after modifying .claude config, before committing config changes, when onboarding to a repo with existing configs, or for periodic security hygiene.
 metadata:
   origin: ECC
 ---
@@ -8,14 +8,6 @@ metadata:
 # Security Scan Skill
 
 Audit your Claude Code configuration for security issues using [AgentShield](https://github.com/affaan-m/agentshield).
-
-## When to Activate
-
-- Setting up a new Claude Code project
-- After modifying `.claude/settings.json`, `CLAUDE.md`, or MCP configs
-- Before committing configuration changes
-- When onboarding to a new repository with existing Claude Code configs
-- Periodic security hygiene checks
 
 ## What It Scans
 

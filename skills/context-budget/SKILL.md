@@ -1,6 +1,6 @@
 ---
 name: context-budget
-description: Audits Claude Code context window consumption across agents, skills, MCP servers, and rules. Identifies bloat, redundant components, and produces prioritized token-savings recommendations.
+description: Audits Claude Code context window consumption across agents, skills, MCP servers, and rules. Identifies bloat, redundant components, and produces prioritized token-savings recommendations. Trigger when session performance feels sluggish, after adding many skills/agents/MCP servers, or to check headroom before adding more.
 metadata:
   origin: ECC
 ---
@@ -8,14 +8,6 @@ metadata:
 # Context Budget
 
 Analyze token overhead across every loaded component in a Claude Code session and surface actionable optimizations to reclaim context space.
-
-## When to Use
-
-- Session performance feels sluggish or output quality is degrading
-- You've recently added many skills, agents, or MCP servers
-- You want to know how much context headroom you actually have
-- Planning to add more components and need to know if there's room
-- Running `/context-budget` command (this skill backs it)
 
 ## How It Works
 

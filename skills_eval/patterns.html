@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Skills evaluation — patterns &amp; fixes</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .pattern { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; margin: 0.85rem 0; }
+  .pattern h3 { margin: 0 0 0.4rem; color: var(--accent); }
+  .pattern .meta { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .pattern p { margin: 0.35rem 0; font-size: 0.92rem; }
+  .pattern ul { margin: 0.4rem 0; font-size: 0.88rem; }
+  .severity { display: inline-block; padding: 0.05rem 0.45rem; border-radius: 3px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 0.4rem; }
+  .sev-high { background: rgba(248, 81, 73, 0.18); color: var(--bad); }
+  .sev-med { background: rgba(240, 180, 41, 0.18); color: var(--warn); }
+  .sev-low { background: rgba(126, 231, 135, 0.15); color: var(--accent); }
+</style>
+</head>
+<body>
+<nav><div class="inner">
+  <span class="brand">AkzelchCC · skills evaluation</span>
+  <a href="index.html">Overview</a>
+  <a href="scoreboard.html">Scoreboard</a>
+  <a href="patterns.html" class="active">Patterns &amp; fixes</a>
+</div></nav>
+
+<div class="container">
+  <h1>Failure-mode patterns &amp; recommended fixes</h1>
+  <p class="section-intro">The same defects appear across many skills. Each pattern below names the failure mode (per the <code>writing-great-skills</code> rubric), lists affected skills, and gives one concrete fix.</p>
+
+  <h2>Cross-cutting defects</h2>
+
+  <div class="pattern">
+    <span class="severity sev-high">duplication</span><span class="severity sev-high">widest impact</span>
+    <h3>"When to Activate" / "When to Use" body sections</h3>
+    <div class="meta">Affects ≈ 60 of 90 skills.</div>
+    <p>Nearly every model-invoked skill carries a body section that restates the description's trigger list. The description is the canonical trigger anchor for model invocation; the body section is pure context load with no behavioural payoff.</p>
+    <p><strong>Fix:</strong> Delete the body section in every affected skill. If the body section has a unique trigger the description lacks, lift it into the description and then delete the section.</p>
+    <p><strong>Examples:</strong> config-gc, browser-qa, exa-search, documentation-lookup, frontend-a11y, react-patterns, error-handling, dotnet-patterns, market-research, frontend-slides, motion-foundations.</p>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-high">sprawl</span>
+    <h3>400+ line bodies with zero progressive disclosure</h3>
+    <div class="meta">8 skills exceed 400 lines without disclosing branch-specific reference.</div>
+    <p>Large pattern/reference skills inline every code example, every appendix, and every alternate-path block. Pruning is impossible because nothing has been split out. The agent pays full context load on every invocation even when only one branch is reached.</p>
+    <p><strong>Fix:</strong> For each skill, identify branch-specific sections (a code language, a platform, an advanced sub-topic) and disclose them to sibling files reached by a named context pointer. Target SKILL.md under 150 lines.</p>
+    <ul>
+      <li><code>python-testing</code> 818 lines · disclose Running Tests, Configuration, Quick Reference → REFERENCE.md</li>
+      <li><code>data-scraper-agent</code> 766 lines · delete duplicated "Common Scraping Patterns" appendix; point to template repo</li>
+      <li><code>python-patterns</code> 752 lines · disclose Anti-Patterns, Quick Reference, tooling → REFERENCE.md</li>
+      <li><code>git-workflow</code> 716 lines · cut Git Configuration / Gitignore / Quick Reference (no-ops); disclose Branching, Release Mgmt</li>
+      <li><code>frontend-patterns</code> 658 lines · disclose Performance and Animation; consider splitting the skill</li>
+      <li><code>graphify</code> 617 lines · still uses some inline content; review the `What graphify is for` duplication</li>
+      <li><code>motion-ui</code> 576 lines · retire or scope to unique content (device-memory heuristic, modal pattern)</li>
+      <li><code>react-performance</code> 576 lines · disclose sections 7 (JS Performance) and 8 (Advanced Patterns)</li>
+    </ul>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-med">no-op / weak leading word</span>
+    <h3>Descriptions that enumerate content rather than fire on triggers</h3>
+    <div class="meta">≈ 12 skills.</div>
+    <p>The description lists what the skill covers ("hooks, server/client seams, Suspense, forms…") instead of stating <em>when</em> the agent should reach for it. The result is unreliable invocation — the model has no leading word to hang the decision on.</p>
+    <p><strong>Fix:</strong> Front-load each description with a pretrained leading concept and a trigger clause. Rewrite "Use this skill to…" openers; they bury the anchor.</p>
+    <ul>
+      <li><code>git-workflow</code>, <code>frontend-patterns</code>, <code>flutter-dart-code-review</code>, <code>dart-flutter-patterns</code>, <code>dotnet-patterns</code></li>
+      <li>Homelab cluster: <code>homelab-network-setup</code>, <code>homelab-pihole-dns</code>, <code>homelab-vlan-segmentation</code>, <code>homelab-wireguard-vpn</code></li>
+      <li><code>browser-qa</code>, <code>resolving-merge-conflicts</code>, <code>skill-stocktake</code> all open with "Use when…" instead of leading word first</li>
+    </ul>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-med">premature completion</span>
+    <h3>Workflow steps with no checkable completion criterion — only where the domain is closed</h3>
+    <div class="meta">Narrower than initially scoped. The rubric says "where it matters" and explicitly allows irreducibly fuzzy criteria; the defence for those is splitting the sequence, not forcing a fake bar.</div>
+    <p>A hard completion criterion fits when the set of things to check is knowable up front (every CSS file, every named dimension, every signal field). On open-ended work — Socratic dialogue, exploratory research, design diagnostics — a premature criterion creates a <em>false ceiling</em>: the agent stops at the bar it was given and misses what the work itself would have surfaced.</p>
+    <p><strong>Add a hard bar (closed domain):</strong></p>
+    <ul>
+      <li><code>brand-voice</code>: "Every VOICE PROFILE dimension has ≥ 2 source examples confirming it" — dimensions are fixed in the schema.</li>
+      <li><code>lead-intelligence</code> Stage 1: "≥ N scored prospects with all six signal fields populated" — fields are fixed.</li>
+    </ul>
+    <p><strong>Leave open (irreducibly fuzzy by design):</strong></p>
+    <ul>
+      <li><code>grill-with-docs</code> — Socratic interrogation. New terms surface <em>because of</em> the grilling; a "canonicalize every term" bar would freeze the agent on the user's first message.</li>
+      <li><code>deep-research</code> Step 5 — synthesis is emergent. Earlier steps (define sub-questions, search depth) can carry bars; the synthesis step cannot.</li>
+      <li><code>product-lens</code> — diagnostic dialogue. Done is judgement, not a checklist.</li>
+      <li><code>handoff</code> — handoff shape is context-dependent; naming required sections would constrain useful variation.</li>
+    </ul>
+    <p><strong>For the irreducibly fuzzy cases:</strong> if the agent is observed rushing, hide post-completion steps by splitting the skill so attention can't slip ahead. Do <em>not</em> invent a criterion to fill the gap — that's worse than none.</p>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-med">duplication</span>
+    <h3>Templated description-equals-body-opening defect</h3>
+    <div class="meta">Pattern skills cluster.</div>
+    <p>The first sentence of the SKILL body is verbatim identical to the frontmatter description. Likely a shared template — fix in one sweep.</p>
+    <ul>
+      <li><code>python-patterns</code></li>
+      <li><code>python-testing</code></li>
+      <li><code>pytorch-patterns</code></li>
+    </ul>
+    <p><strong>Fix:</strong> Delete the duplicated opening sentence from each body.</p>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-med">no-op</span>
+    <h3>"Actor · action · target" wrapper lines</h3>
+    <div class="meta">Every <code>orch-*</code> wrapper skill.</div>
+    <p>Every orch-* skill carries an "Actor · action · target" descriptor line that adds no behaviour for the running agent — pure exposition.</p>
+    <p><strong>Fix:</strong> Delete the line uniformly across <code>orch-build-mvp</code>, <code>orch-change-feature</code>, <code>orch-fix-defect</code>, <code>orch-refine-code</code>.</p>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-med">duplication</span>
+    <h3><code>motion-ui</code> overlaps the rest of the motion family</h3>
+    <div class="meta">motion-ui 576 lines.</div>
+    <p>Token definitions, accessibility code, SSR guidance, stagger list, and modal pattern are copied verbatim from <code>motion-foundations</code> and <code>motion-patterns</code>. Its generic description ("Use when implementing animations…") creates invocation ambiguity with the other three motion skills.</p>
+    <p><strong>Fix:</strong> Audit against the other motion skills; either retire <code>motion-ui</code> or scope to its unique content (device-memory heuristic, debugging checklist, QA checklist).</p>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-low">invocation mismatch</span>
+    <h3>Skills marked model-invoked that should be user-invoked</h3>
+    <div class="meta">≈ 2 skills.</div>
+    <p>Some skills are only ever fired by a user typing the name (e.g. <code>/aside &lt;q&gt;</code>) yet are model-invoked, paying ongoing context load for a description the model never needs.</p>
+    <p><strong>Fix:</strong> Set <code>disable-model-invocation: true</code> on <code>aside</code>; convert the description to a human-facing one-liner.</p>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-low">sediment</span>
+    <h3>Scope-claim contradictions</h3>
+    <div class="meta">Notably <code>coding-standards</code>.</div>
+    <p><code>coding-standards</code> declares it does not cover React or API design, yet its body contains large React Best Practices and API Design sections — duplicating <code>frontend-patterns</code> and <code>backend-patterns</code>.</p>
+    <p><strong>Fix:</strong> Remove the React and API sections; respect the stated scope.</p>
+  </div>
+
+  <div class="pattern">
+    <span class="severity sev-low">maintenance risk</span>
+    <h3>Frontmatter <code>name:</code> ≠ folder slug</h3>
+    <div class="meta">2 skills.</div>
+    <p><code>scientific-thinking-literature-review</code> and <code>scientific-thinking-scholar-evaluation</code> both have an internal <code>name:</code> that differs from the folder slug. This can cause silent invocation misses depending on how the loader resolves names.</p>
+    <p><strong>Fix:</strong> Align <code>name:</code> with the folder slug in both files.</p>
+  </div>
+
+  <h2>What the top-quartile skills do differently</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Pretrained leading words</h3>
+      <p>The top skills anchor entire regions of behaviour on a single pretrained concept: <em>caveman, tight, tracer bullet, PICO, garbage collection, throwaway, baseline / increment / trend</em>. The body uses them repeatedly so the model can hang its execution on the prior.</p>
+    </div>
+    <div class="card">
+      <h3>Disclosure that mirrors branches</h3>
+      <p><code>writing-great-skills</code>, <code>prototype</code>, <code>codebase-design</code>, <code>tdd</code>, <code>orch-add-feature</code>, and <code>remotion-video-creation</code> all push branch-specific reference behind named context pointers. The body of each skill stays under 150 lines.</p>
+    </div>
+    <div class="card">
+      <h3>Checkable completion criteria</h3>
+      <p>The top workflow skills end each phase on a binary observable: <code>diagnosing-bugs</code> (loop goes red or not), <code>align-vocabulary</code> ("every drifting term substituted or explicitly retained"), <code>network-config-validation</code> (5-pass ordered check), <code>orch-fix-defect</code> (reproduce as failing test, then green).</p>
+    </div>
+    <div class="card">
+      <h3>Front-loaded descriptions</h3>
+      <p>The strongest descriptions lead with the skill concept itself rather than "Use this skill to…". They list distinct branches without synonym inflation and contain no body-duplicating exposition.</p>
+    </div>
+  </div>
+
+  <h2>Suggested cleanup pass — priority order</h2>
+  <ol>
+    <li><strong>Sweep deletion of "When to Activate" body sections</strong> across the ≈60 affected skills. Highest-impact single change; restores description as single source of truth for invocation.</li>
+    <li><strong>Progressive disclosure on the 8 sprawl skills</strong> (lines 400+). Cuts steady-state context load substantially.</li>
+    <li><strong>Description rewrite pass</strong>: front-load leading word, delete synonym lists, strip "Use this skill to…" openers.</li>
+    <li><strong>Add completion criteria</strong> to workflow skills missing them.</li>
+    <li><strong>Targeted fixes</strong>: retire/scope <code>motion-ui</code>, remove out-of-scope sections from <code>coding-standards</code>, align scientific-thinking name/slug pairs, delete <code>orch-*</code> "Actor · action · target" lines, set <code>aside</code> to user-invoked.</li>
+  </ol>
+
+  <p class="footer">Generated from <code>group-01.md</code>…<code>group-09.md</code>.</p>
+</div>
+</body>
+</html>

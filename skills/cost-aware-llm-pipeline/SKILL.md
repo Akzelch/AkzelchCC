@@ -9,13 +9,6 @@ metadata:
 
 Patterns for controlling LLM API costs while maintaining quality. Combines model routing, budget tracking, retry logic, and prompt caching into a composable pipeline.
 
-## When to Activate
-
-- Building applications that call LLM APIs (Claude, GPT, etc.)
-- Processing batches of items with varying complexity
-- Need to stay within a budget for API spend
-- Optimizing cost without sacrificing quality on complex tasks
-
 ## Core Concepts
 
 ### 1. Model Routing by Task Complexity
@@ -175,10 +168,3 @@ def process(text: str, config: Config, tracker: CostTracker) -> tuple[Result, Co
 - Mutating cost tracking state (makes debugging and auditing difficult)
 - Hardcoding model names throughout the codebase (use constants or config)
 - Ignoring prompt caching for repetitive system prompts
-
-## When to Use
-
-- Any application calling Claude, OpenAI, or similar LLM APIs
-- Batch processing pipelines where cost adds up quickly
-- Multi-model architectures that need intelligent routing
-- Production systems that need budget guardrails

@@ -21,13 +21,6 @@ Pull these ECC-native skills into the workflow when relevant:
 - `lead-intelligence` when the task is people/company targeting instead of generic research
 - `knowledge-ops` when the result should be stored in durable context afterward
 
-## When to Use
-
-- user says "research", "look up", "compare", "who should I talk to", or "what's the latest"
-- the answer depends on current public information
-- the user already supplied evidence and wants it factored into a fresh recommendation
-- the task may be recurring enough that it should become a monitor instead of a one-off lookup
-
 ## Guardrails
 
 - do not answer current questions from stale memory when fresh search is cheap

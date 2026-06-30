@@ -9,14 +9,6 @@ metadata:
 
 Use this skill to evaluate academic or scientific work with a repeatable rubric.
 
-## When to Use
-
-- Reviewing a research paper, proposal, thesis chapter, or literature review.
-- Checking whether claims are supported by cited evidence.
-- Evaluating methodology, study design, analysis, or limitations.
-- Comparing two or more papers for quality or relevance.
-- Producing structured feedback for revision.
-
 ## Evaluation Scope
 
 Start by identifying the artifact:

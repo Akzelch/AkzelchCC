@@ -14,18 +14,6 @@ This is a planning and review skill. Do not turn it into copy-paste router,
 firewall, or VPN configuration unless the target platform, current topology,
 rollback path, console access, and maintenance window are all known.
 
-## When to Use
-
-- Preparing to split a flat network into trusted, IoT, guest, server, or
-  management VLANs.
-- Moving DHCP clients to Pi-hole, AdGuard Home, Unbound, or another local DNS
-  resolver.
-- Adding WireGuard, Tailscale, ZeroTier, OpenVPN, or router-native VPN access.
-- Reviewing whether a homelab change can lock the operator out of the gateway,
-  switch, access point, DNS server, or VPN server.
-- Turning an informal home-network idea into a staged migration plan with
-  validation evidence.
-
 ## Safety Rules
 
 - Keep the first answer read-only: inventory, risks, staged plan, validation,

@@ -1,5 +1,5 @@
 {
-  "name": "akzelchcc",
+  "name": "akzelch_cc",
   "description": "Personal agent customizations: subagents, skills, and MCP servers shared across Claude Code, GitHub Copilot CLI, and VS Code Copilot.",
   "version": "1.0.0",
   "author": {

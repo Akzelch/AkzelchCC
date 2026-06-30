@@ -1,6 +1,6 @@
 ---
 name: homelab-wireguard-vpn
-description: WireGuard VPN server setup, peer configuration, key generation, split tunneling vs full tunnel routing, and remote access to a home network from mobile and laptop clients.
+description: WireGuard VPN server setup, peer configuration, key generation, split tunneling vs full tunnel routing, and remote access to a home network from mobile and laptop clients. Also for troubleshooting WireGuard connections that won't come up, or automating peer config generation.
 metadata:
   origin: community
 ---
@@ -13,15 +13,6 @@ home network — simpler to configure than OpenVPN and faster than most alternat
 All configuration examples show common setups. Review each command — especially the
 iptables forwarding rules and key file permissions — before applying them to your
 system, and make changes in a maintenance window.
-
-## When to Use
-
-- Setting up WireGuard server on a Raspberry Pi, Linux host, pfSense, or router
-- Generating WireGuard keypairs and writing peer config files
-- Configuring remote access from a phone or laptop to a home network
-- Explaining split tunneling (route only home traffic) vs full tunnel (route all traffic)
-- Troubleshooting WireGuard connections that will not come up
-- Automating peer configuration generation for multiple clients
 
 ## How WireGuard Works
 

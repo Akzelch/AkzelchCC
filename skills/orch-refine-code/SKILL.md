@@ -10,13 +10,6 @@ metadata:
 Actor · action · target: **orch · refine · code**. Thin wrapper over the shared
 engine in [`orch-pipeline`](../orch-pipeline/SKILL.md).
 
-## When to Use
-
-- Same behavior, **better structure**: extract modules, remove duplication, kill
-  dead code, reduce nesting, rename for clarity.
-- Distinguish from siblings: if behavior is meant to change at all, this is the
-  wrong skill (`orch-change-feature` / `orch-fix-defect`).
-
 ## Operation settings
 
 - **Default size floor:** standard — restructures touch multiple files.

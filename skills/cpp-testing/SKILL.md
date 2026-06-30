@@ -1,6 +1,6 @@
 ---
 name: cpp-testing
-description: Use only when writing/updating/fixing C++ tests, configuring GoogleTest/CTest, diagnosing failing or flaky tests, or adding coverage/sanitizers.
+description: Use only when writing/updating/fixing C++ tests, configuring GoogleTest/CTest, diagnosing failing or flaky tests, or adding coverage/sanitizers. Do NOT use for new product features without test changes, large refactors unrelated to tests, performance tuning without test regressions, or non-C++ projects.
 metadata:
   origin: ECC
 ---
@@ -8,22 +8,6 @@ metadata:
 # C++ Testing (Agent Skill)
 
 Agent-focused testing workflow for modern C++ (C++17/20) using GoogleTest/GoogleMock with CMake/CTest.
-
-## When to Use
-
-- Writing new C++ tests or fixing existing tests
-- Designing unit/integration test coverage for C++ modules
-- Adding test coverage, CI gating, or regression protection
-- Configuring CMake/CTest workflows for consistent execution
-- Investigating test failures or flaky behavior
-- Enabling sanitizers for memory/race diagnostics
-
-### When NOT to Use
-
-- Implementing new product features without test changes
-- Large-scale refactors unrelated to test coverage or failures
-- Performance tuning without test regressions to validate
-- Non-C++ projects or non-test tasks
 
 ## Core Concepts
 
