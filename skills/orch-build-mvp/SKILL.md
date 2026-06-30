@@ -7,7 +7,7 @@ metadata:
 
 # orch-build-mvp
 
-Actor · action · target: **orch · build · mvp**. Thin wrapper over the shared
+Thin wrapper over the shared
 engine in [`orch-pipeline`](../orch-pipeline/SKILL.md).
 
 ## Operation settings

@@ -46,6 +46,10 @@ Produce a reusable `VOICE PROFILE` block that downstream skills can consume dire
 
 Keep the profile structured and short enough to reuse in session context. The point is not literary criticism. The point is operational reuse.
 
+### Done When
+
+Every dimension defined in the `VOICE PROFILE` schema has at least two source examples confirming it. A dimension with zero or one example is unfounded — either gather more source material or drop the dimension from the profile.
+
 ## Affaan / ECC Defaults
 
 If the user wants Affaan / ECC voice and live sources are thin, start here unless newer source material overrides it:

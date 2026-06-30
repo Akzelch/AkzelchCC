@@ -1,5 +1,6 @@
 ---
-description: Answer a quick side question without interrupting or losing context from the current task. Resume work automatically after answering.
+description: Answer a quick side question without polluting the current task context.
+disable-model-invocation: true
 ---
 
 # Aside Command

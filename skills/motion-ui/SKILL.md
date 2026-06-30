@@ -1,50 +1,13 @@
 ---
 name: motion-ui
-description: "Production-ready UI motion system for React/Next.js. Use when implementing animations, transitions, or motion patterns."
+description: "Device adaptation, debugging, and QA checklists for motion/react work. Adds a deviceMemory-aware low-end heuristic, a hydration/import debugging checklist, and an accessibility/motion QA checklist on top of motion-foundations / motion-patterns / motion-advanced."
 metadata:
   origin: ECC
 ---
 
-# Motion System v4.2
+# Motion UI — Device Adaptation, Debugging, QA
 
-Production-ready UI motion system for React / Next.js.
-
-Focused on **performance, accessibility, and usability** — not decoration.
-
-## When to Use
-
-Use this motion system when motion:
-
-* Guides attention (e.g., onboarding, key actions)
-* Communicates state (loading, success, error, transitions)
-* Preserves spatial continuity (layout changes, navigation)
-
-### Appropriate Scenarios
-
-* Interactive components (buttons, modals, menus)
-* State transitions (loading → loaded, open → closed)
-* Navigation and layout continuity (shared elements, crossfade)
-
-### Considerations
-
-* **Accessibility**: Always support reduced motion
-* **Device adaptation**: Adjust for low-end devices
-* **Performance trade-offs**: Prefer responsiveness over visual smoothness
-
-### Avoid Using Motion When
-
-* It is purely decorative
-* It reduces usability or clarity
-* It impacts performance negatively
-
----
-
-## Foundations and Patterns
-
-This skill scopes to **device adaptation, debugging, and QA**. Everything else has moved to dedicated skills — load them first:
-
-* **`motion-foundations`** — tokens, springs, `useReducedMotion`, `useSafeMotion`, `motionConfig.shouldAnimate`, SSR safety, anti-patterns, the eight non-negotiable rules. Required reading before any motion work.
-* **`motion-patterns`** — `AnimatePresence` contract, stagger, modal (with focus trap / scroll lock / Escape / ARIA), toast stack, page transitions, scroll reveal, scroll progress, expanding card, `layoutId` crossfade, accordion.
+This skill assumes `motion-foundations`, `motion-patterns`, and `motion-advanced` are in scope. It only carries the three things those skills do not: a finer-grained low-end device heuristic, a debugging checklist, and a QA checklist.
 
 Do not redefine tokens, springs, or accessibility hooks here. Import from `motion-foundations`.
 

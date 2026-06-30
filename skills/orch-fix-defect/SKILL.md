@@ -7,7 +7,7 @@ metadata:
 
 # orch-fix-defect
 
-Actor · action · target: **orch · fix · defect**. Thin wrapper over the shared
+Thin wrapper over the shared
 engine in [`orch-pipeline`](../orch-pipeline/SKILL.md).
 
 ## Operation settings

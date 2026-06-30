@@ -7,7 +7,7 @@ metadata:
 
 # orch-refine-code
 
-Actor · action · target: **orch · refine · code**. Thin wrapper over the shared
+Thin wrapper over the shared
 engine in [`orch-pipeline`](../orch-pipeline/SKILL.md).
 
 ## Operation settings

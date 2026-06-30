@@ -77,6 +77,10 @@ x_search = search_recent_tweets(
 # Extract and score unique authors
 ```
 
+### Done When
+
+Stage 1 produces at least N scored prospects (N supplied by the user, default 20) with all six signal fields populated. A prospect missing any field is incomplete — either find the data or drop the prospect from the scored list before moving to Stage 2.
+
 ## Stage 2: Mutual Ranking
 
 For each scored target, analyze the user's social graph to find the warmest path.
