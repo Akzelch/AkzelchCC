@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Appendix · AkzelchCC</title>
+  <meta name="description" content="Searchable appendix of every skill in the AkzelchCC repository with explainers and invocation guidance." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <span class="brand"><span class="mark"></span>Skill Appendix <small>AkzelchCC</small></span>
+      <nav class="nav">
+        <a href="#skills">Skills</a>
+        <a href="#mcp">MCP servers</a>
+      </nav>
+      <span class="spacer"></span>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>Every skill, explained.</h1>
+      <p>A reference for the skills installed in this repository. Search by name or
+      purpose, filter by category, and expand any entry to see what it does and when to
+      reach for it. Use the toggles to narrow to the skills you trigger yourself, or to
+      the <span style="color:var(--useronly);font-weight:600">user-only</span> skills the
+      agent never auto-applies.</p>
+      <div class="stats">
+        <div class="stat"><span class="num" id="statTotal">—</span><span class="lbl">Skills</span></div>
+        <div class="stat"><span class="num" id="statInv">—</span><span class="lbl">User-invocable</span></div>
+        <div class="stat"><span class="num" id="statUser">—</span><span class="lbl">User-only</span></div>
+        <div class="stat"><span class="num" id="statCat">—</span><span class="lbl">Categories</span></div>
+      </div>
+    </section>
+
+    <section class="controls" id="skills">
+      <div class="searchrow">
+        <div class="search">
+          <span class="ico">⌕</span>
+          <input id="search" type="search" placeholder="Search skills by name, trigger, or description…" autocomplete="off" />
+        </div>
+        <label class="toggle-invocable">
+          <input type="checkbox" id="onlyInv" /> Invocable only
+        </label>
+        <label class="toggle-invocable">
+          <input type="checkbox" id="onlyUser" /> User-only
+        </label>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="legend">
+        <span class="item"><span class="sw useronly"></span> User-only — never auto-applied by the agent</span>
+        <span class="item"><span class="sw inv"></span> Invocable — user or agent can trigger</span>
+        <span class="item"><span class="sw auto"></span> Automatic — agent applies as patterns/reference</span>
+      </div>
+    </section>
+
+    <p class="resultmeta" id="resultMeta"></p>
+    <div id="catalog"></div>
+    <div class="empty" id="empty" style="display:none">No skills match your search.</div>
+
+    <section id="mcp" class="mcp-section">
+      <div class="cathead">
+        <h2>MCP servers</h2>
+        <span class="count" id="mcpCount"></span>
+      </div>
+      <p class="mcp-intro">Model Context Protocol servers wired into this repo. They give
+      skills and the agent extra tools — web search, live docs, a real browser, and
+      external systems. Servers marked <span class="badge cred">credentials</span> need
+      secrets filled in before use.</p>
+      <div class="grid" id="mcpGrid"></div>
+    </section>
+
+    <footer>
+      <span>93 skills · generated from <code>skills/*/SKILL.md</code></span>
+      <span>50 user-invocable · 7 user-only · <span id="mcpFooter">—</span> MCP servers</span>
+    </footer>
+  </main>
+
+  <button class="toplink" id="toTop" title="Back to top" aria-label="Back to top">↑</button>
+
+  <script src="skills-data.js"></script>
+  <script src="mcp-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

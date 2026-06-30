@@ -5,6 +5,14 @@ The repo installs as a single [VS Code agent plugin](https://code.visualstudio.c
 that works identically in **Claude Code**, **GitHub Copilot CLI**, and **VS Code
 Copilot** — the same `plugin.json` manifest is read by all three.
 
+> ## 📖 [Skill & MCP Index → `docs/index.html`](docs/index.html)
+>
+> The front-facing reference for everything in this repo: a searchable, filterable
+> catalog of all 93 skills (with expandable explainers, invocation tiers, and
+> user-only markers) plus the wired-up MCP servers. Open `docs/index.html` in any
+> browser — no build step, no server. **Start here** to discover what's available
+> and when to invoke it.
+
 ## What ships where
 
 The plugin carries everything the [plugin format](https://code.visualstudio.com/docs/agent-customization/agent-plugins)
@@ -46,6 +54,8 @@ all three tools).
 │   └── <lang>/            # Language/framework-specific rules (e.g. typescript/, web/)
 ├── commands/              # Plugin: custom slash commands
 ├── hooks/                 # Plugin: event hooks
+├── docs/                  # Front-facing skill & MCP index (open docs/index.html)
+├── tools/                 # Build scripts (e.g. docs data generator)
 └── copilot/
     ├── copilot-instructions.md  # Copilot CLI: user-level instructions
     └── config.json              # Copilot CLI: CLI settings
